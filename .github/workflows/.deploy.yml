@@ -18,10 +18,10 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      # Deploy to the server using sshpass and password authentication
+      # Deploy to the server using sshpass
       - name: Deploy to Server
         run: |
-          sshpass -p ${{ secrets.SERVER_PASSWORD }} ssh -o StrictHostKeyChecking=no root@185.8.173.73 << 'EOF'
+          sshpass -p ${{ secrets.SERVER_PASSWORD }} ssh -o StrictHostKeyChecking=no root@185.8.173.73 <<EOF
             cd /var/www/rundev.ir/backend
             git stash
             git pull origin main
