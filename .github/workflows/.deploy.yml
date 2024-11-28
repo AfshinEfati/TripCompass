@@ -21,7 +21,7 @@ jobs:
       # Deploy to the server using sshpass
       - name: Deploy to Server
         env:
-          SSHPASS: ${{ secrets.SERVER_PASSWORD }}
+          SSHPASS: ${{ secrets.SSH_PASSWORD }}
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no root@185.8.173.73 <<EOF
             cd /var/www/rundev.ir/backend
