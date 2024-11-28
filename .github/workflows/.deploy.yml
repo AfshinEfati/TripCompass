@@ -1,0 +1,34 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 185.8.173.73 >> ~/.ssh/known_hosts
+
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          ssh root@185.8.173.73 << 'EOF'
+            cd /var/www/rundev.ir/backend
+            git stash
+            git pull origin main
+            php artisan migrate --force
+            php artisan l5-swagger:generate
+          EOF
