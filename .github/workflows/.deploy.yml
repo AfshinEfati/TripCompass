@@ -10,22 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 185.8.173.73 >> ~/.ssh/known_hosts
+      # Install sshpass
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
 
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+      # Deploy to the server using sshpass and password authentication
       - name: Deploy to Server
         run: |
-          ssh root@185.8.173.73 << 'EOF'
+          sshpass -p ${{ secrets.SERVER_PASSWORD }} ssh -o StrictHostKeyChecking=no root@185.8.173.73 << 'EOF'
             cd /var/www/rundev.ir/backend
             git stash
             git pull origin main
