@@ -28,5 +28,4 @@ jobs:
             git stash
             git pull origin main
             php artisan migrate --force
-#            php artisan l5-swagger:generate
           EOF
