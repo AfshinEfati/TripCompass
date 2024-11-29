@@ -20,6 +20,7 @@ class CountryResource extends JsonResource
             'iso_code'=>$this->iso_code,
             'iso_code_3'=>$this->iso_code_3,
             'is_active'=>$this->getStatus($this->is_active),
+            'states'=>$this->relationLoaded('states')?StateResource::collection($this->states): null,
         ];
     }
 }
