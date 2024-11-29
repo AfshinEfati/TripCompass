@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Admin\CreateCountryRequest;
 use App\Http\Resources\Api\Admin\CountryResource;
 use App\Models\Country;
 use App\Services\CountryService;
@@ -31,8 +32,21 @@ class CountryController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CreateCountryRequest $request)
     {
+        $country = $this->service->store($request->validated());
+        if ($country->isNotEmpty())
+            return response()->json([
+                'success' => true,
+                'data' => CountryResource::make($country),
+                'message' => 'Country list'
+            ]);
+        return response()->json([
+            'success' => true,
+            'data' => null,
+            'message' => 'Country is empty!'
+        ]);
+
     }
 
     public function show(Country $country)
