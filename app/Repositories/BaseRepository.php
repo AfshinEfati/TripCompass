@@ -17,7 +17,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->query()->orderBy('id','asc')->get();
+        return $this->model->query()->orderBy('id', 'asc')->get();
     }
 
     public function show($id): Model|Collection|Builder|array|null
@@ -30,10 +30,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->query()->create($data);
     }
 
-    public function update($id, array $data): Model|Collection|Builder|array|null
+    public function update(Model $model, array $data): Model|Collection|Builder|array|null
     {
-        $model = $this->model->query()->findOrFail($id);
-        $model->update($data);
+        $this->model->query()->update($data);
         return $model->refresh();
     }
 
