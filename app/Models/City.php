@@ -18,4 +18,8 @@ class City extends Model
     {
         return $this->belongsTo(State::class);
     }
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'city_offering')->withPivot('is_active')->withTimestamps();
+    }
 }

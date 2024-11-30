@@ -4,12 +4,15 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\CountryRepository;
+use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
+use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
 use App\Services\CityService;
 use App\Services\CountryService;
+use App\Services\ServiceService;
 use App\Services\StateService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
@@ -31,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
         $this->app->bind(CityService::class, function ($app) {
             return new CityService($app->make(CityRepositoryInterface::class));
+        });
+        $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
+        $this->app->bind(ServiceService::class, function ($app) {
+            return new ServiceService($app->make(ServiceRepositoryInterface::class));
         });
     }
 
