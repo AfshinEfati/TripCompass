@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Models\Service;
+use App\Models\User;
 use App\Repositories\BaseRepository;
-use App\Repositories\Interfaces\ServiceRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceRepository extends BaseRepository implements ServiceRepositoryInterface
+class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
-    public function __construct(Service $model)
+    public function __construct(User $model)
     {
         parent::__construct($model);
     }

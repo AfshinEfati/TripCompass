@@ -3,13 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -19,8 +21,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
+        'mobile',
+        'token',
+        'balance'
     ];
 
     /**
@@ -45,4 +48,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the agencies associated with the user.
+     *
+     * This function defines a one-to-many relationship between the User and Agency models.
+     * It allows retrieval of all agencies owned or managed by this user.
+     *
+     * @return HasMany A collection of Agency models associated with this user.
+     */
+    public function agencies(): HasMany
+    {
+        return $this->hasMany(Agency::class);
+    }
+
 }

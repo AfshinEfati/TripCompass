@@ -8,60 +8,41 @@ use App\Http\Requests\Api\V1\Admin\UpdateServiceRequest;
 use App\Http\Resources\Api\Admin\ServiceResource;
 use App\Models\Service;
 use App\Services\ServiceService;
-use Illuminate\Http\Request;
+use App\Traits\StatusTrait;
 
 class ServiceController extends Controller
 {
-    public function __construct(public ServiceService $service)
-    {
-    }
+    use StatusTrait;
+    public function __construct(public ServiceService $service) {}
+
+
 
     public function index()
     {
         $services = $this->service->all();
-        return response()->json([
-            'success' => true,
-            'data' => ServiceResource::collection($services),
-            'message' => 'Get service success'
-        ]);
+        return $this->successResponse(ServiceResource::collection($services), 'Get service success');
     }
 
     public function store(CreateServiceRequest $request)
     {
         $service = $this->service->store($request->validated());
-        return response()->json([
-            'success' => true,
-            'data' => ServiceResource::make($service),
-            'message' => 'Create service success'
-        ]);
+        return $this->successResponse(ServiceResource::make($service), 'Create service success');
     }
 
     public function show(Service $service)
     {
-        return response()->json([
-            'success' => true,
-            'data' => ServiceResource::make($service),
-            'message' => 'Get service success'
-        ]);
+        return $this->successResponse(ServiceResource::make($service), 'Get service success');
     }
 
     public function update(UpdateServiceRequest $request, Service $service)
     {
-        $service = $this->service->update($request->validated(), $service);
-        return response()->json([
-            'success' => true,
-            'data' => ServiceResource::make($service),
-            'message' => 'Update service success'
-        ]);
+        $updatedService = $this->service->update($request->validated(), $service);
+        return $this->successResponse(ServiceResource::make($updatedService), 'Update service success');
     }
 
     public function destroy(Service $service)
     {
         $this->service->destroy($service);
-        return response()->json([
-            'success' => true,
-            'data' => null,
-            'message' => 'Service Delete successfully'
-        ]);
+        return $this->successResponse(null, 'Service deleted successfully');
     }
 }

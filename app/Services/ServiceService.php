@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\Models\Service;
-use App\Repositories\Interfaces\CityRepositoryInterface;
+use App\Repositories\Interfaces\ServiceRepositoryInterface;
 
 class ServiceService
 {
-    public function __construct(public CityRepositoryInterface $repository)
+    public function __construct(public ServiceRepositoryInterface $repository)
     {
     }
     public function all()
