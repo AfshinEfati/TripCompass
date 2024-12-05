@@ -9,12 +9,12 @@ trait StatusTrait
     public function getStatus($status): array
     {
         return $status?[
-            'title'=>'active',
-            'title_fa'=>'فعال',
+            'name'=>'active',
+            'fa_name'=>'فعال',
             'code'=>1
         ]:[
-            'title'=>'inActive',
-            'title_fa'=>'غیرفعال',
+            'name'=>'inActive',
+            'fa_name'=>'غیرفعال',
             'code'=>0
         ];
     }
