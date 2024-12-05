@@ -14,6 +14,7 @@ class Agency extends Model
         'contract_type',
         'commission_rate',
         'fixed_rate',
+        'is_active',
         'user_id',
     ];
     /**

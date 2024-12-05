@@ -27,5 +27,5 @@ jobs:
             cd /var/www/rundev.ir/backend
             git stash
             git pull origin main
-            php artisan migrate --force
+            php artisan migrate:fresh --seed
           EOF

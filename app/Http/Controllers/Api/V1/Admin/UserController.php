@@ -8,12 +8,10 @@ use App\Http\Requests\Api\V1\Admin\CreateUserRequest;
 use App\Http\Requests\Api\V1\Admin\UpdateUserRequest;
 use App\Http\Resources\Api\Admin\UserResource;
 use App\Models\User;
-use App\Services\Sms\Sms;
 use App\Services\UserService;
 use App\Traits\StatusTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Random\RandomException;
 
 class UserController extends Controller
 {
@@ -51,8 +49,6 @@ class UserController extends Controller
         return $this->successResponse([], 'User deleted successfully');
     }
     /**
-     * @throws RandomException
-     * @throws RandomException
      */
     public function login(LoginRequest $request)
     {

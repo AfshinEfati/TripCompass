@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('commission_rate')->default(0);
             $table->unsignedBigInteger('fixed_rate')->default(2000)->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

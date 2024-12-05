@@ -2,16 +2,19 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\AgencyRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
 use App\Repositories\Contracts\UserRepository;
+use App\Repositories\Interfaces\AgencyRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\AgencyService;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\ServiceService;
@@ -46,6 +49,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(UserService::class, function ($app) {
             return new UserService($app->make(UserRepositoryInterface::class));
+        });
+        // Bind the AgencyRepositoryInterface with the AgencyRepository and AgencyService
+        $this->app->bind(AgencyRepositoryInterface::class, AgencyRepository::class);
+        $this->app->bind(AgencyService::class, function ($app) {
+            return new AgencyService($app->make(AgencyRepositoryInterface::class));
         });
     }
 
