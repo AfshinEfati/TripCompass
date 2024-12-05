@@ -6,14 +6,17 @@ use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
+use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\ServiceService;
 use App\Services\StateService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
 class AppServiceProvider extends ServiceProvider
@@ -38,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(ServiceService::class, function ($app) {
             return new ServiceService($app->make(ServiceRepositoryInterface::class));
+        });
+        // Bind the UserRepositoryInterface with the UserRepository and UserService
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserService::class, function ($app) {
+            return new UserService($app->make(UserRepositoryInterface::class));
         });
     }
 
