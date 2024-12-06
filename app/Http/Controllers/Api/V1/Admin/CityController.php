@@ -21,7 +21,7 @@ class CityController extends Controller
         $cities = $this->service->all();
         return response()->json([
             'success' => true,
-            'cities' => CityResource::collection($cities),
+            'data' => CityResource::collection($cities),
             'message'=>'List of all cities'
         ]);
     }
@@ -31,7 +31,7 @@ class CityController extends Controller
         $city = $this->service->store($request->validated());
         return response()->json([
             'success' => true,
-            'city' => new CityResource($city),
+            'data' => new CityResource($city),
             'message'=>'City created successfully'
         ]);
     }
@@ -40,7 +40,7 @@ class CityController extends Controller
     {
         return response()->json([
             'success' => true,
-            'city' => new CityResource($city),
+            'data' => new CityResource($city),
             'message'=>'City retrieved successfully'
         ]);
     }

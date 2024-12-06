@@ -19,6 +19,7 @@ class CityResource extends JsonResource
             'name_en' => $this->name_en,
             'name_fa' => $this->name_fa,
             'is_active' => $this->getStatus($this->is_active),
+            'state_id' => $this->state_id,
             'state' => $this->relationLoaded('state') ? StateResource::make($this->state) : null,
         ];
     }
