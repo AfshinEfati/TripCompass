@@ -3,18 +3,21 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\AgencyRepository;
+use App\Repositories\Contracts\AirlineRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Interfaces\AgencyRepositoryInterface;
+use App\Repositories\Interfaces\AirlineRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\AgencyService;
+use App\Services\AirlineService;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\ServiceService;
@@ -54,6 +57,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AgencyRepositoryInterface::class, AgencyRepository::class);
         $this->app->bind(AgencyService::class, function ($app) {
             return new AgencyService($app->make(AgencyRepositoryInterface::class));
+        });
+        // Bind the AirlineRepositoryInterface with the AirlineRepository and AirlineService
+        $this->app->bind(AirlineRepositoryInterface::class, AirlineRepository::class);
+        $this->app->bind(AirlineService::class, function ($app) {
+            return new AirlineService($app->make(AirlineRepositoryInterface::class));
         });
     }
 

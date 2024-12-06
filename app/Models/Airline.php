@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Airline extends Model
 {
@@ -16,4 +17,8 @@ class Airline extends Model
         'is_active',
         'description',
     ];
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
 }
