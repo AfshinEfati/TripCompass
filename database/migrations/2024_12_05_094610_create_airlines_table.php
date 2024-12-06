@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name_en');
             $table->string('name_fa');
-            $table->string('iata_code', 2)->nullable();
-            $table->string('icao_code', 3)->nullable();
+            $table->string('iata_code', 5)->nullable();
+            $table->string('icao_code', 5)->nullable();
             $table->foreignId('country_id')->constrained('countries')->onDelete('cascade');
             $table->string('logo_url')->nullable();
             $table->boolean('is_active')->default(true);
