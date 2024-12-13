@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 65);
             $table->string('description')->nullable();
             $table->string('canonical');
-            $table->string('robots',20)->default('index,follow');
+            $table->boolean('robots')->default(false);
             $table->timestamps();
         });
     }
