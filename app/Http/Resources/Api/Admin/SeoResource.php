@@ -18,7 +18,7 @@ class SeoResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'canonical' => $this->canonical,
-            'robots' => $this->robots,
+            'robots' => $this->getStatus($this->robots),
             'created_at' =>$this->formatDates( $this->created_at),
             'updated_at' =>$this->formatDates( $this->updated_at),
         ];
