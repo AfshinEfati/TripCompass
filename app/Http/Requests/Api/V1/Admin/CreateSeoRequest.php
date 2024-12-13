@@ -12,7 +12,7 @@ class CreateSeoRequest extends FormRequest
             'title' => 'required|string|max:65',
             'description' => 'required|string|max:255',
             'canonical' => 'required|string|max:255',
-            'robots' => 'required|string|max:20',
+            'robots' => 'required|boolean',
         ];
     }
 
