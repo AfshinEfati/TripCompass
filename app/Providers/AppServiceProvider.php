@@ -7,6 +7,7 @@ use App\Repositories\Contracts\AirlineRepository;
 use App\Repositories\Contracts\AirportRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\CountryRepository;
+use App\Repositories\Contracts\SeoRepository;
 use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
 use App\Repositories\Contracts\UserRepository;
@@ -15,6 +16,7 @@ use App\Repositories\Interfaces\AirlineRepositoryInterface;
 use App\Repositories\Interfaces\AirportRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
+use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -23,6 +25,7 @@ use App\Services\AirlineService;
 use App\Services\AirportService;
 use App\Services\CityService;
 use App\Services\CountryService;
+use App\Services\SeoService;
 use App\Services\ServiceService;
 use App\Services\StateService;
 use App\Services\UserService;
@@ -70,6 +73,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AirportRepositoryInterface::class, AirportRepository::class);
         $this->app->bind(AirportService::class, function ($app) {
             return new AirportService($app->make(AirportRepositoryInterface::class));
+        });
+        // Bind the SeoServiceInterface with the SeoRepository and SeoService
+        $this->app->bind(SeoRepositoryInterface::class, SeoRepository::class);
+        $this->app->bind(SeoService::class, function ($app) {
+            return new SeoService($app->make(SeoRepositoryInterface::class));
         });
     }
 

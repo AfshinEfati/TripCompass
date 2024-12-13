@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 
 trait StatusTrait
@@ -26,5 +27,15 @@ trait StatusTrait
             'data' => $data,
             'message' => $message
         ]);
+    }
+    public function formatDates($date): array
+    {
+        $date = Carbon::parse($date);
+        return [
+            'date' => $date->format('Y-m-d'),
+            'time' => $date->format('H:i:s'),
+            'fa_date' => verta($date)->format('Y-m-d'),
+            'iso' => Carbon::make($date)->toIso8601String(),
+        ];
     }
 }
