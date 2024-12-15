@@ -17,7 +17,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->query()->orderBy('id', 'asc')->get();
+        return $this->model->query()->orderBy('id', 'desc')->get();
     }
 
     public function show($id): Model|Collection|Builder|array|null

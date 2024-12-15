@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Admin\CityController;
 use App\Http\Controllers\Api\V1\Admin\ContentController;
 use App\Http\Controllers\Api\V1\Admin\CountryController;
 use App\Http\Controllers\Api\V1\Admin\SeoController;
+use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
@@ -32,5 +33,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('seos', SeoController::class);
         Route::apiResource('contents', ContentController::class);
+        Route::apiResource('seo-relations', SeoRelationController::class);
     });
 });

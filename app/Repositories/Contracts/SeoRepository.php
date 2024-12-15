@@ -33,7 +33,9 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
 
     public function findWithAll(\App\Models\Seo $seo)
     {
-        $seo =  $this->model->query()->with('content')->find($seo->id);
-        return $seo;
+        return $this->model->query()->with([
+            'content',
+            'seoRelation'
+        ])->find($seo->id);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Seo extends Model
@@ -16,6 +17,11 @@ class Seo extends Model
     public function content(): HasOne
     {
         return $this->hasOne(Content::class);
+    }
+
+    public function seoRelation(): HasMany
+    {
+        return $this->hasMany(SeoRelation::class);
     }
 
 }
