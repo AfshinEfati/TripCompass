@@ -21,6 +21,7 @@ class SeoResource extends JsonResource
             'robots' => $this->getStatus($this->robots),
             'created_at' =>$this->formatDates( $this->created_at),
             'updated_at' =>$this->formatDates( $this->updated_at),
+            'contents' => ContentResource::collection($this->whenLoaded('contents')),
         ];
     }
 }

@@ -18,4 +18,8 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
     {
         return $this->model->with('seo')->get();
     }
+    public function store(array $data): Model
+    {
+        return $this->model->query()->create($data);
+    }
 }

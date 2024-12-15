@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('model_id')->index();
             $table->string('model_type');
             $table->string('relation_type',50);
-            $table->index(['related_id', 'related_type','seo_id']);
+            $table->index(['model_type', 'model_id','seo_id']);
             $table->timestamps();
         });
     }

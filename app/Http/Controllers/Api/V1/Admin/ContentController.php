@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Admin\CreateContentRequest;
+use App\Http\Requests\Api\V1\Admin\UpdateContentRequest;
 use App\Http\Resources\Api\Admin\ContentResource;
 use App\Models\Content;
 use App\Services\ContentService;
@@ -32,14 +33,19 @@ class ContentController extends Controller
 
     public function show(Content $content)
     {
-
+        return $this->successResponse(new ContentResource($content), 'Content Detail');
     }
 
-    public function update(Request $request, Content $content)
+    public function update(UpdateContentRequest $request, Content $content)
     {
+        $data = $request->validated();
+        $content = $this->service->update($content, $data);
+        return $this->successResponse(new ContentResource($content), 'Content Updated');
     }
 
     public function destroy(Content $content)
     {
+        $this->service->delete($content);
+        return $this->successResponse(null, 'Content Deleted');
     }
 }
