@@ -33,6 +33,7 @@ class SeoController extends Controller
 
     public function show(Seo $seo)
     {
+        $seo = $this->service->findWithAll($seo);
         return $this->successResponse(new SeoResource($seo), 'Seo Detail');
     }
 

@@ -26,4 +26,9 @@ class SeoService
     {
         return $this->repository->destroy($seo->id);
     }
+
+    public function findWithAll(\App\Models\Seo $seo)
+    {
+        return $this->repository->findWithAll($seo);
+    }
 }

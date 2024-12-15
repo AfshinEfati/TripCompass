@@ -12,6 +12,7 @@ class Seo extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
     public function content(): HasOne
     {
         return $this->hasOne(Content::class);

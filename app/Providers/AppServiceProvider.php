@@ -24,6 +24,7 @@ use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Scopes\OrderByIdDescScope;
 use App\Services\AgencyService;
 use App\Services\AirlineService;
 use App\Services\AirportService;
@@ -35,6 +36,7 @@ use App\Services\SeoService;
 use App\Services\ServiceService;
 use App\Services\StateService;
 use App\Services\UserService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
 class AppServiceProvider extends ServiceProvider
@@ -102,6 +104,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::addGlobalScope(new OrderByIdDescScope());
 
     }
 
