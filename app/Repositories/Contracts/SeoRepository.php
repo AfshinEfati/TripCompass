@@ -23,7 +23,7 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
     public function update(Seo|Model $model, $data): Model
     {
         $model->update($data);
-        return $this->model->query()->with('content')->find($seo->id);
+        return $this->model->query()->with('content')->find($model->id);
     }
 
     public function destroy($id): bool

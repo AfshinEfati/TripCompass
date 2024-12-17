@@ -20,7 +20,7 @@ class SeoService
     }
     public function update(array $data, Model $seo)
     {
-        return $this->repository->update( $seo, $data);
+        return $this->repository->update($seo, $data);
     }
     public function delete(Model $seo)
     {
