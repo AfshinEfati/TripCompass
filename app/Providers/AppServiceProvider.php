@@ -8,6 +8,7 @@ use App\Repositories\Contracts\AirportRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ContentRepository;
 use App\Repositories\Contracts\CountryRepository;
+use App\Repositories\Contracts\MediaRepository;
 use App\Repositories\Contracts\SeoRelationRepository;
 use App\Repositories\Contracts\SeoRepository;
 use App\Repositories\Contracts\ServiceRepository;
@@ -19,6 +20,7 @@ use App\Repositories\Interfaces\AirportRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
+use App\Repositories\Interfaces\MediaRepositoryInterface;
 use App\Repositories\Interfaces\SeoRelationRepositoryInterface;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
@@ -31,6 +33,7 @@ use App\Services\AirportService;
 use App\Services\CityService;
 use App\Services\ContentService;
 use App\Services\CountryService;
+use App\Services\MediaService;
 use App\Services\SeoRelationService;
 use App\Services\SeoService;
 use App\Services\ServiceService;
@@ -96,6 +99,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
         $this->app->bind(ContentService::class, function ($app) {
             return new ContentService($app->make(ContentRepositoryInterface::class));
+        });
+        // Bind the MediaRepositoryInterface with the MediaRepository and MediaService
+        $this->app->bind(MediaRepositoryInterface::class, MediaRepository::class);
+        $this->app->bind(MediaService::class, function ($app) {
+            return new MediaService($app->make(MediaRepositoryInterface::class));
         });
     }
 

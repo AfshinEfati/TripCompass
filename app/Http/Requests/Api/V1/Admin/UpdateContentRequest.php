@@ -9,7 +9,7 @@ class UpdateContentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:contents,id'],
+//            'id' => ['required', 'exists:contents,id'],
             'seo_id' => ['nullable', 'exists:seos,id'],
             'title_fa' => ['required'],
             'content' => ['required'],

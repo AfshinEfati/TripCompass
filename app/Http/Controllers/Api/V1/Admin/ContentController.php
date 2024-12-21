@@ -8,13 +8,14 @@ use App\Http\Requests\Api\V1\Admin\UpdateContentRequest;
 use App\Http\Resources\Api\Admin\ContentResource;
 use App\Models\Content;
 use App\Services\ContentService;
+use App\Services\MediaService;
 use App\Traits\StatusTrait;
 use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
     use StatusTrait;
-    public function __construct(public ContentService $service)
+    public function __construct(public ContentService $service,public MediaService $mediaService)
     {
     }
 
@@ -48,4 +49,5 @@ class ContentController extends Controller
         $this->service->delete($content);
         return $this->successResponse(null, 'Content Deleted');
     }
+
 }

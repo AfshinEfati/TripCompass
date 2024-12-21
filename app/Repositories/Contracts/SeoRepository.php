@@ -31,7 +31,7 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
         return $this->model->query()->find($id)->delete();
     }
 
-    public function findWithAll(\App\Models\Seo $seo)
+    public function findWithAll(Seo $seo)
     {
         return $this->model->query()->with([
             'content',

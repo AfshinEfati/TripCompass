@@ -32,6 +32,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airlines', AirlineController::class);
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('seos', SeoController::class);
+        Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('seo-relations', SeoRelationController::class);
     });

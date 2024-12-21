@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Admin\CreateSeoRequest;
 use App\Http\Requests\Api\V1\Admin\UpdateSeoRequest;
+use App\Http\Requests\Api\V1\Admin\UploadMediaRequest;
 use App\Http\Resources\Api\Admin\SeoResource;
 use App\Models\Seo;
 use App\Services\SeoService;
@@ -47,5 +48,10 @@ class SeoController extends Controller
     {
         $this->service->delete($seo);
         return $this->successResponse(null, 'Seo Deleted');
+    }
+    public function upload(UploadMediaRequest $request)
+    {
+        $this->mediaService->upload(request()->all());
+        return $this->successResponse(null, 'Media Uploaded');
     }
 }
