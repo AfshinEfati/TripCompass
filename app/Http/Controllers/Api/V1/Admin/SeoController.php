@@ -8,6 +8,7 @@ use App\Http\Requests\Api\V1\Admin\UpdateSeoRequest;
 use App\Http\Requests\Api\V1\Admin\UploadMediaRequest;
 use App\Http\Resources\Api\Admin\SeoResource;
 use App\Models\Seo;
+use App\Services\MediaService;
 use App\Services\SeoService;
 use App\Traits\StatusTrait;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 class SeoController extends Controller
 {
     use StatusTrait;
-    public function __construct(public SeoService $service)
+    public function __construct(public SeoService $service, public MediaService $mediaService)
     {
     }
 
@@ -51,7 +52,7 @@ class SeoController extends Controller
     }
     public function upload(UploadMediaRequest $request)
     {
-        $this->mediaService->upload(request()->all());
+        $this->mediaService->upload($request->validated());
         return $this->successResponse(null, 'Media Uploaded');
     }
 }

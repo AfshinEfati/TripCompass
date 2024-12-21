@@ -2,26 +2,26 @@
 
 namespace App\Http\Requests\Api\V1\Admin;
 
+use App\Models\Seo;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UploadMediaRequest extends FormRequest
 {
-    protected function prepareForValidation(): void
+    public function prepareForValidation(): void
     {
-        dd($this->route());
         $this->merge([
-            'model_id' => $this->route('content'),
-            'model_type' => $this->route('model_type'),
+            'model_id' => $this->route('seo'),
+            'model_type' => Seo::class,
         ]);
     }
 
     public function rules(): array
     {
-        $model_id = $this->route('content');
-        $model_type = $this->route('model_type');
+        $model_type = Seo::class;
         return [
-            'file' => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'model_id' => 'required|integer|exists:' . $model_type . ',id',
+            'files' => 'required|array',
+            'files.*' => 'file|mimes:jpeg,jpg,png,gif,svg|max:2048',
+           'model_id' => 'required|integer|exists:' . $model_type . ',id',
             'model_type' => 'required|string|in:' . $model_type,
         ];
     }

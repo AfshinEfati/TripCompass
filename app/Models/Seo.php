@@ -23,5 +23,9 @@ class Seo extends Model
     {
         return $this->hasMany(SeoRelation::class);
     }
+    public function media(): HasMany
+    {
+        return $this->hasMany(Media::class, 'model_id')->where('model_type', self::class);
+    }
 
 }

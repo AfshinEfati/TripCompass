@@ -23,6 +23,7 @@ class SeoResource extends JsonResource
             'updated_at' =>$this->formatDates( $this->updated_at),
             'contents' => ContentResource::make($this->whenLoaded('content')),
             'seo_relations' => SeoRelationResource::collection($this->whenLoaded('seoRelation')),
+            'media' => MediaResource::collection($this->whenLoaded('media')),
         ];
     }
 }

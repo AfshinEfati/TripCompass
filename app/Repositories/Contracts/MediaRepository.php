@@ -27,14 +27,12 @@ class MediaRepository implements MediaRepositoryInterface
     {
         $data = (object)$data;
         $name = 'unknown';
-        if (!$data->hasFile('images')) {
-          throw new Exception('No file uploaded');
-        }
+
         if (!$data->model_id || !$data->model_type) {
-            $filePath = "public/media";
+            $filePath = "media";
             $lastMedia = $this->model->query()->get()->last();
         } else {
-            $filePath = "public/media/" . collect(Explode('\\', $data->model_type))->last() . "/" . $data->model_id;
+            $filePath = "media/" . collect(Explode('\\', $data->model_type))->last() . "/" . $data->model_id;
             $lastMedia = $this->model->query()->where('model_id', $data->model_id)->where('model_type', $data->model_type)->get()->last();
             $modelType = $data->model_type;
             $modelId = $data->model_id;
@@ -47,16 +45,21 @@ class MediaRepository implements MediaRepositoryInterface
 
         }
         $priority = $lastMedia ? $lastMedia->priority : 0;
-        foreach ($data->file('images') as $file) {
+        $files = $data->files;
+        foreach ($files as $file) {
             $priority++;
             $filename = $this->getFilename($file, $filePath, $name);
+            $relativePath = $filePath . '/' . $filename;
+
             $this->model->query()->create([
-                'model_id' => (int)$data->model_id??null,
-                'model_type' => $data->model_type??null,
+                'model_id' => (int)$data->model_id ?? null,
+                'model_type' => $data->model_type ?? null,
                 'file_name' => $filename,
-                'mime_type' => Storage::mimeType($filePath . '/' . $filename),
-                'file_size' => Storage::size($filePath . '/' . $filename),
-                'priority' => $priority
+                'mime_type' => Storage::disk('public')->mimeType($relativePath),
+                'file_size' => Storage::disk('public')->size($relativePath),
+                'priority' => $priority,
+                'file_path' => $relativePath,
+                'file_type' => 'image',
             ]);
         }
     }
@@ -71,12 +74,12 @@ class MediaRepository implements MediaRepositoryInterface
     {
         $filename = $name . '_' . time() . '.webp';
         $manager = new ImageManager(new Driver());
-        if (!Storage::exists($filePath)) {
-            Storage::makeDirectory($filePath);
+        if (!Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->makeDirectory($filePath, 0777, true);
         }
-        $image =$manager->read($file);
+        $image = $manager->read($file);
         $image->toWebp();
-        $image->save(storage_path('app/' . $filePath . '/' . $filename));
+        $image->save(storage_path('app/public/' . $filePath . '/' . $filename));
         return $filename;
     }
 

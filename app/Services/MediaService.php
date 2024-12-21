@@ -10,7 +10,7 @@ class MediaService
     {
     }
 
-    public function upload(array $data): null
+    public function upload(array $data): void
     {
          $this->repository->upload($data);
     }
