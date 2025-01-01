@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+Route::get::('/amir',[Statecontroller::class,'amir']);
 Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', [UserController::class, 'login']);
