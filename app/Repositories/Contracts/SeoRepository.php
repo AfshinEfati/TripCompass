@@ -39,4 +39,15 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
             'media'
         ])->find($seo->id);
     }
+
+    public function getByCanonical(string $canonicalUrl)
+    {
+       return $this->model->query()->where([
+           'canonical' => $canonicalUrl
+       ])->with([
+           'content',
+           'seoRelation',
+           'media'
+       ])->first();
+    }
 }

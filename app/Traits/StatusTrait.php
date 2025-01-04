@@ -28,6 +28,14 @@ trait StatusTrait
             'message' => $message
         ]);
     }
+    private function notFoundResponse($data, $message): JsonResponse
+    {
+        return response()->json([
+            'success' => false,
+            'data' => $data,
+            'message' => $message
+        ]);
+    }
     public function formatDates($date): array
     {
         $date = Carbon::parse($date);

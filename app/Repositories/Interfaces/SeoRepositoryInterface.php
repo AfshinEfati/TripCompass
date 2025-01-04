@@ -8,4 +8,6 @@ interface SeoRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function findWithAll(\App\Models\Seo $seo);
+
+    public function getByCanonical(string $canonicalUrl);
 }

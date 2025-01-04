@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Seo;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,8 +28,13 @@ class SeoService
         return $this->repository->destroy($seo->id);
     }
 
-    public function findWithAll(\App\Models\Seo $seo)
+    public function findWithAll(Seo $seo)
     {
         return $this->repository->findWithAll($seo);
+    }
+
+    public function getByCanonical(string $canonicalUrl)
+    {
+        return $this->repository->getByCanonical($canonicalUrl);
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Frontend\FrontendController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('seo-relations', SeoRelationController::class);
     });
-    Route::group(['prefix' => 'frontend', 'namespace' => 'Frontend'], function () {
-
+    Route::group(['prefix' => 'frontend'], function () {
+        Route::get('{canonicalUrl}',[FrontendController::class, 'getByCanonicalUrl']);
     });
 });
