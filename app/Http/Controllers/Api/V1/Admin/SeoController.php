@@ -11,6 +11,7 @@ use App\Models\Seo;
 use App\Services\MediaService;
 use App\Services\SeoService;
 use App\Traits\StatusTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SeoController extends Controller
@@ -20,37 +21,37 @@ class SeoController extends Controller
     {
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         $seos = $this->service->all();
         return $this->successResponse(SeoResource::collection($seos), 'All Seo');
 
     }
 
-    public function store(CreateSeoRequest $request)
+    public function store(CreateSeoRequest $request): JsonResponse
     {
         $seo = $this->service->store($request->validated());
         return $this->successResponse(new SeoResource($seo), 'Seo Created');
     }
 
-    public function show(Seo $seo)
+    public function show(Seo $seo): JsonResponse
     {
         $seo = $this->service->findWithAll($seo);
         return $this->successResponse(new SeoResource($seo), 'Seo Detail');
     }
 
-    public function update(UpdateSeoRequest $request, Seo $seo)
+    public function update(UpdateSeoRequest $request, Seo $seo): JsonResponse
     {
         $seo = $this->service->update($request->validated(), $seo);
         return $this->successResponse(new SeoResource($seo), 'Seo Updated');
     }
 
-    public function destroy(Seo $seo)
+    public function destroy(Seo $seo): JsonResponse
     {
         $this->service->delete($seo);
         return $this->successResponse(null, 'Seo Deleted');
     }
-    public function upload(UploadMediaRequest $request)
+    public function upload(UploadMediaRequest $request): JsonResponse
     {
         $this->mediaService->upload($request->validated());
         return $this->successResponse(null, 'Media Uploaded');

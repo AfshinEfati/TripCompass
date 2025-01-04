@@ -36,4 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('seo-relations', SeoRelationController::class);
     });
+    Route::group(['prefix' => 'frontend', 'namespace' => 'Frontend'], function () {
+
+    });
 });
