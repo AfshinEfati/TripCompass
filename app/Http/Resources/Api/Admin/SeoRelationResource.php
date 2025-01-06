@@ -13,6 +13,22 @@ class SeoRelationResource extends JsonResource
     use StatusTrait;
     public function toArray(Request $request): array
     {
+        if ($this->model_type) {
+            $model =collect(explode('\\', $this->model_type))->last();
+            $model_id = $this->model_id;
+            $modelType = $this->model_type;
+            $modelInstance = app($modelType);
+            $modelId = $modelInstance->find($this->model_id);
+            $modelResource = 'App\Http\Resources\Api\Admin\\' . $model . 'Resource';
+            if (class_exists($modelResource)) {
+                $resource = $modelResource::make($modelId);
+            } else {
+                $resource = $modelId;
+            }
+        }else{
+            $model = 'model';
+            $resource = null;
+        }
         return [
             'id' => $this->id,
             'model_id' => $this->model_id,
@@ -22,6 +38,7 @@ class SeoRelationResource extends JsonResource
             'updated_at' => $this->formatDates($this->updated_at),
             'seo_id' => $this->seo_id,
             'seo' => new SeoResource($this->whenLoaded('seo')),
+            strtolower($model) => $resource,
         ];
     }
 }
