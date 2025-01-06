@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\FaqController;
 use App\Http\Controllers\Api\V1\Admin\AirlineController;
 use App\Http\Controllers\Api\V1\Admin\AirportController;
 use App\Http\Controllers\Api\V1\Admin\CityController;
 use App\Http\Controllers\Api\V1\Admin\ContentController;
 use App\Http\Controllers\Api\V1\Admin\CountryController;
+use App\Http\Controllers\Api\V1\Admin\FaqController;
 use App\Http\Controllers\Api\V1\Admin\SeoController;
 use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;

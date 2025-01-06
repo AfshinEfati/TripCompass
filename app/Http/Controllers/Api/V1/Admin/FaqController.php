@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\CreateFaqRequest;
@@ -9,7 +9,6 @@ use App\Http\Resources\Api\Admin\FaqResource;
 use App\Models\Faq;
 use App\Services\FaqService;
 use App\Traits\StatusTrait;
-use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
