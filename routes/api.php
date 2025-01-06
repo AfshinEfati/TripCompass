@@ -35,9 +35,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('seos', SeoController::class);
         Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
+        Route::group(['prefix' => 'seos'],function (){
+            Route::get('{id}/faqs', [FaqController::class, 'index']);
+            Route::post('{id}/faqs', [FaqController::class, 'store']);
+            Route::patch('{id}/faqs/{faq_id}', [FaqController::class, 'update']);
+            Route::delete('/faqs/{id}', [FaqController::class, 'destroy']);
+        });
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('seo-relations', SeoRelationController::class);
-        Route::apiResource('faqs', FaqController::class);
     });
     Route::group(['prefix' => 'frontend'], function () {
         Route::get('{canonicalUrl}',[FrontendController::class, 'getByCanonicalUrl']);
