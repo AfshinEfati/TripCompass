@@ -17,6 +17,7 @@ class FrontendController extends Controller
 
     public function getByCanonicalUrl(string $canonicalUrl)
     {
+
         $page = $this->seoService->getByCanonical($canonicalUrl);
         if (!$page) {
             return $this->notFoundResponse(null, 'Page not found');

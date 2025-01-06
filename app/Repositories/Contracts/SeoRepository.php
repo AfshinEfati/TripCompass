@@ -42,6 +42,14 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
 
     public function getByCanonical(string $canonicalUrl)
     {
+        if ($canonicalUrl === 'home')
+        {
+            return $this->model->query()->where('canonical','LIKE','/')->with([
+                'content',
+                'seoRelation',
+                'media'
+            ])->first();
+        }
        return $this->model->query()->where([
            'canonical' => $canonicalUrl
        ])->with([
