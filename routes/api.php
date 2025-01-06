@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\FaqController;
 use App\Http\Controllers\Api\V1\Admin\AirlineController;
 use App\Http\Controllers\Api\V1\Admin\AirportController;
 use App\Http\Controllers\Api\V1\Admin\CityController;
@@ -36,6 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('seo-relations', SeoRelationController::class);
+        Route::apiResource('faqs', FaqController::class);
     });
     Route::group(['prefix' => 'frontend'], function () {
         Route::get('{canonicalUrl}',[FrontendController::class, 'getByCanonicalUrl']);

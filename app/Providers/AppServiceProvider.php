@@ -8,6 +8,7 @@ use App\Repositories\Contracts\AirportRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ContentRepository;
 use App\Repositories\Contracts\CountryRepository;
+use App\Repositories\Contracts\FaqRepository;
 use App\Repositories\Contracts\MediaRepository;
 use App\Repositories\Contracts\SeoRelationRepository;
 use App\Repositories\Contracts\SeoRepository;
@@ -20,6 +21,7 @@ use App\Repositories\Interfaces\AirportRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
+use App\Repositories\Interfaces\FaqRepositoryInterface;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
 use App\Repositories\Interfaces\SeoRelationRepositoryInterface;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
@@ -33,6 +35,7 @@ use App\Services\AirportService;
 use App\Services\CityService;
 use App\Services\ContentService;
 use App\Services\CountryService;
+use App\Services\FaqService;
 use App\Services\MediaService;
 use App\Services\SeoRelationService;
 use App\Services\SeoService;
@@ -104,6 +107,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MediaRepositoryInterface::class, MediaRepository::class);
         $this->app->bind(MediaService::class, function ($app) {
             return new MediaService($app->make(MediaRepositoryInterface::class));
+        });
+        // Bind the FaqRepositoryInterface with the FaqRepository and FaqService
+        $this->app->bind(FaqRepositoryInterface::class, FaqRepository::class);
+        $this->app->bind(FaqService::class, function ($app) {
+            return new FaqService($app->make(FaqRepositoryInterface::class));
         });
     }
 
