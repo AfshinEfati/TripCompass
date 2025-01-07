@@ -38,7 +38,7 @@ class SeoRelationResource extends JsonResource
             'updated_at' => $this->formatDates($this->updated_at),
             'seo_id' => $this->seo_id,
             'seo' => new SeoResource($this->whenLoaded('seo')),
-            strtolower($model) => $resource,
+            'model' => $resource,
         ];
     }
 }
