@@ -27,5 +27,9 @@ class Seo extends Model
     {
         return $this->hasMany(Media::class, 'model_id')->where('model_type', self::class);
     }
+    public function anchors(): HasMany
+    {
+        return $this->hasMany(Anchor::class);
+    }
 
 }

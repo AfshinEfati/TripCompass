@@ -24,6 +24,8 @@ class SeoResource extends JsonResource
             'contents' => ContentResource::make($this->whenLoaded('content')),
             'seo_relations' => SeoRelationResource::collection($this->whenLoaded('seoRelation')),
             'media' => MediaResource::collection($this->whenLoaded('media')),
+            'anchors' => AnchorResource::collection($this->whenLoaded('anchors')),
+            'faqs' => FaqResource::collection($this->whenLoaded('faqs')),
         ];
     }
 }

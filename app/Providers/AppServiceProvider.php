@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Repositories\Contracts\AgencyRepository;
 use App\Repositories\Contracts\AirlineRepository;
 use App\Repositories\Contracts\AirportRepository;
+use App\Repositories\Contracts\AnchorRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ContentRepository;
 use App\Repositories\Contracts\CountryRepository;
@@ -18,6 +19,7 @@ use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Interfaces\AgencyRepositoryInterface;
 use App\Repositories\Interfaces\AirlineRepositoryInterface;
 use App\Repositories\Interfaces\AirportRepositoryInterface;
+use App\Repositories\Interfaces\AnchorRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
@@ -32,6 +34,7 @@ use App\Scopes\OrderByIdDescScope;
 use App\Services\AgencyService;
 use App\Services\AirlineService;
 use App\Services\AirportService;
+use App\Services\AnchorService;
 use App\Services\CityService;
 use App\Services\ContentService;
 use App\Services\CountryService;
@@ -112,6 +115,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FaqRepositoryInterface::class, FaqRepository::class);
         $this->app->bind(FaqService::class, function ($app) {
             return new FaqService($app->make(FaqRepositoryInterface::class));
+        });
+        // Bind the AnchorRepositoryInterface with the AnchorRepository and AnchorService
+        $this->app->bind(AnchorRepositoryInterface::class, AnchorRepository::class);
+        $this->app->bind(AnchorService::class, function ($app) {
+            return new AnchorService($app->make(AnchorRepositoryInterface::class));
         });
     }
 

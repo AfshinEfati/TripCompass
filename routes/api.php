@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Admin\AirlineController;
 use App\Http\Controllers\Api\V1\Admin\AirportController;
+use App\Http\Controllers\Api\V1\Admin\AnchorController;
 use App\Http\Controllers\Api\V1\Admin\CityController;
 use App\Http\Controllers\Api\V1\Admin\ContentController;
 use App\Http\Controllers\Api\V1\Admin\CountryController;
@@ -35,16 +36,21 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('seos', SeoController::class);
         Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
-        Route::group(['prefix' => 'seos'],function (){
+        Route::group(['prefix' => 'seos'], function () {
             Route::get('{id}/faqs', [FaqController::class, 'index']);
             Route::post('{id}/faqs', [FaqController::class, 'store']);
             Route::patch('{id}/faqs/{faq_id}', [FaqController::class, 'update']);
             Route::delete('/faqs/{id}', [FaqController::class, 'destroy']);
+
+            Route::get('{id}/anchors', [AnchorController::class, 'getAnchors']);
+            Route::post('{id}/anchors', [AnchorController::class, 'storeAnchor']);
+            Route::patch('{id}/anchors/{anchor_id}', [AnchorController::class, 'updateAnchor']);
+            Route::delete('{id}/anchors/{anchor_id}', [AnchorController::class, 'destroyAnchor']);
         });
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('seo-relations', SeoRelationController::class);
     });
     Route::group(['prefix' => 'frontend'], function () {
-        Route::get('{canonicalUrl}',[FrontendController::class, 'getByCanonicalUrl']);
+        Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
     });
 });
