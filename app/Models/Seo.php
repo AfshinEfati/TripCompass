@@ -31,5 +31,9 @@ class Seo extends Model
     {
         return $this->hasMany(Anchor::class);
     }
+    public function faqs(): HasMany
+    {
+        return $this->hasMany(Faq::class);
+    }
 
 }
