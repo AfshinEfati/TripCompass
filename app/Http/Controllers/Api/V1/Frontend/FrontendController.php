@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Admin\SeoResource;
+use App\Services\AirportService;
 use App\Services\SeoService;
 use App\Traits\StatusTrait;
 
@@ -11,7 +12,7 @@ class FrontendController extends Controller
 {
     use StatusTrait;
 
-    public function __construct(public SeoService $seoService)
+    public function __construct(public SeoService $seoService,public AirportService $airportService)
     {
     }
 
@@ -23,6 +24,11 @@ class FrontendController extends Controller
             return $this->notFoundResponse(null, 'Page not found');
         }
         return $this->successResponse(SeoResource::make($page), 'Page found');
+    }
+    public function getAirports($query = null)
+    {
+        $airports = $this->airportService->getAirports($query);
+        return $this->successResponse(SeoResource::collection($airports), 'Airports found');
     }
 
 }

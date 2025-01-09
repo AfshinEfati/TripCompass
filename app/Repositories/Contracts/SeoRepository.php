@@ -61,4 +61,6 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
             'anchors'
         ])->first();
     }
+
+
 }

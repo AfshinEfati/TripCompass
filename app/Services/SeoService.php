@@ -37,4 +37,6 @@ class SeoService
     {
         return $this->repository->getByCanonical($canonicalUrl);
     }
+
+
 }

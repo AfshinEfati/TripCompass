@@ -52,5 +52,6 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'frontend'], function () {
         Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
+        Route::get('airports/{?query}', [FrontendController::class, 'getAirports']);
     });
 });

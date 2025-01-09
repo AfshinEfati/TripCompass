@@ -30,4 +30,9 @@ class AirportService
     {
         return $this->repository->destroy($airport->id);
     }
+
+    public function getAirports(mixed $query)
+    {
+        return $this->repository->getAirports($query);
+    }
 }
