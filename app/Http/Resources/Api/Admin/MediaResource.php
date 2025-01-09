@@ -20,6 +20,7 @@ class MediaResource extends JsonResource
             'mime_type' => $this->mime_type,
             'file_url' =>$this->model_type?"media/$model/$model_id/$this->file_name" : 'media/' . $this->file_name,
             'priority' => $this->priority,
+            'alt_text' => $this->alt_text,
         ];
     }
 }

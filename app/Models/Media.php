@@ -16,7 +16,9 @@ class Media extends Model
         'mime_type',
         'priority',
         'model_id',
-        'model_type'
+        'model_type',
+        'duration',
+        'alt_text',
     ];
 
 

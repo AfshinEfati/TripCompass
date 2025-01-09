@@ -20,8 +20,9 @@ class UploadMediaRequest extends FormRequest
         $model_type = Seo::class;
         return [
             'files' => 'required|array',
-            'files.*' => 'file|mimes:jpeg,jpg,png,gif,svg|max:2048',
-           'model_id' => 'required|integer|exists:' . $model_type . ',id',
+            'files.*.file' => 'file|mimes:jpeg,jpg,png,gif,svg|max:2048',
+            'files.*.alt_text' => 'required|string|max:255',
+            'model_id' => 'required|integer|exists:' . $model_type . ',id',
             'model_type' => 'required|string|in:' . $model_type,
         ];
     }

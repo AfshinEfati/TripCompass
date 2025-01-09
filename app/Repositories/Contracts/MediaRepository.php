@@ -60,6 +60,7 @@ class MediaRepository implements MediaRepositoryInterface
                 'priority' => $priority,
                 'file_path' => $relativePath,
                 'file_type' => 'image',
+                'alt_text' => $file['alt_text'] ?? null,
             ]);
         }
     }

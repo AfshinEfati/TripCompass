@@ -8,12 +8,13 @@ use App\Http\Resources\Api\Admin\SeoResource;
 use App\Services\AirportService;
 use App\Services\SeoService;
 use App\Traits\StatusTrait;
+use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
     use StatusTrait;
 
-    public function __construct(public SeoService $seoService,public AirportService $airportService)
+    public function __construct(public SeoService $seoService, public AirportService $airportService)
     {
     }
 
@@ -26,9 +27,10 @@ class FrontendController extends Controller
         }
         return $this->successResponse(SeoResource::make($page), 'Page found');
     }
-    public function getAirports($query = null)
+
+    public function getAirports(Request $request)
     {
-        $airports = $this->airportService->getAirports($query);
+        $airports = $this->airportService->getAirports($request->input('query'));
         return $this->successResponse(AirportResource::collection($airports), 'Airports found');
     }
 

@@ -22,12 +22,11 @@ class AirportRepository extends BaseRepository implements AirportRepositoryInter
         return $model->refresh();
     }
 
-    public function getAirports(mixed $query): Collection
+    public function getAirports(string|null $query): Collection
     {
         $builder = $this->model->query()
             ->where('domestic_flight', true)
             ->where('is_active', true);
-
         if ($query) {
             $builder->where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('name_en', 'LIKE', '%' . $query . '%')

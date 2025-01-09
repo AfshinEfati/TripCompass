@@ -20,7 +20,10 @@ return new class extends Migration {
             $table->integer('priority')->default(1);
             $table->unsignedBigInteger('model_id');
             $table->string('model_type');
+            $table->string('duration')->nullable()->comment('media duration');
+            $table->string('alt_text')->nullable()->comment('alt of doc');
             $table->timestamps();
+            $table->index(['model_id', 'model_type']);
         });
     }
 

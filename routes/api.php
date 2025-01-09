@@ -51,7 +51,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('seo-relations', SeoRelationController::class);
     });
     Route::group(['prefix' => 'frontend'], function () {
+        Route::post('airports', [FrontendController::class, 'getAirports']);
         Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
-        Route::get('airports/{?query}', [FrontendController::class, 'getAirports']);
     });
 });
