@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Admin\AirportResource;
 use App\Http\Resources\Api\Admin\SeoResource;
 use App\Services\AirportService;
 use App\Services\SeoService;
@@ -28,7 +29,7 @@ class FrontendController extends Controller
     public function getAirports($query = null)
     {
         $airports = $this->airportService->getAirports($query);
-        return $this->successResponse(SeoResource::collection($airports), 'Airports found');
+        return $this->successResponse(AirportResource::collection($airports), 'Airports found');
     }
 
 }
