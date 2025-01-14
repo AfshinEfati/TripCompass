@@ -22,7 +22,7 @@ class FaqService
 
     public function update(mixed $validated, mixed $id)
     {
-        return $this->repository->update( $id,$validated);
+        return $this->repository->update($id,$validated);
     }
 
     public function destroy(int $id)

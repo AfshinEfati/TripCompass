@@ -43,4 +43,5 @@ class FaqRepository implements FaqRepositoryInterface
     {
         return $this->model->find($id);
     }
+
 }

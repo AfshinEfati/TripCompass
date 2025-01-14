@@ -40,7 +40,7 @@ class FaqController extends Controller
     }
 
 
-    public function update(UpdateFaqRequest $request, int $seo_id, int $faq_id): JsonResponse
+    public function update(UpdateFaqRequest $request, int $id, int $faq_id): JsonResponse
     {
         $this->service->update($request->validated(), $faq_id);
         $faq = $this->service->findById($faq_id);
