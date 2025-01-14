@@ -14,4 +14,6 @@ interface FaqRepositoryInterface
 
     public function destroy(int $id);
 
+    public function findById(int $id);
+
 }

@@ -7,8 +7,8 @@ use App\Repositories\Interfaces\MediaRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
-use Str;
 use Intervention\Image\ImageManager;
 
 class MediaRepository implements MediaRepositoryInterface
@@ -40,7 +40,7 @@ class MediaRepository implements MediaRepositoryInterface
             if (class_exists($modelClass)) {
                 $relatedModel = $modelClass::find($modelId);
                 if ($relatedModel)
-                    $name = Str::slug($relatedModel->name);
+                    $name = Str::slug($relatedModel->name ?? collect(explode('/', $relatedModel->canonical))->last());
             }
 
         }
@@ -48,9 +48,8 @@ class MediaRepository implements MediaRepositoryInterface
         $files = $data->files;
         foreach ($files as $file) {
             $priority++;
-            $filename = $this->getFilename($file, $filePath, $name);
+            $filename = $this->getFilename($file['file'], $filePath, $name);
             $relativePath = $filePath . '/' . $filename;
-
             $this->model->query()->create([
                 'model_id' => (int)$data->model_id ?? null,
                 'model_type' => $data->model_type ?? null,

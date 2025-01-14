@@ -6,7 +6,6 @@ use App\Models\Faq;
 use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
-use LaravelIdea\Helper\App\Models\_IH_Faq_C;
 
 class FaqRepository implements FaqRepositoryInterface
 {
@@ -38,5 +37,10 @@ class FaqRepository implements FaqRepositoryInterface
     {
         $faq = $this->model->find($id);
         $faq->delete();
+    }
+
+    public function findById(int $id): Faq
+    {
+        return $this->model->find($id);
     }
 }
