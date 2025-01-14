@@ -39,4 +39,5 @@ class FaqRepository implements FaqRepositoryInterface
         $faq = $this->model->find($id);
         $faq->delete();
     }
+
 }
