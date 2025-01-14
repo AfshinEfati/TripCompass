@@ -47,8 +47,9 @@ class MediaRepository implements MediaRepositoryInterface
         }
         $priority = $lastMedia ? $lastMedia->priority : 0;
         $files = $data->files;
-        foreach ($files as $file) {
+        foreach ($files as $i => $file) {
             $priority++;
+            $name = $i ? "{$name}_{$i}" : $name;
             $filename = $this->getFilename($file['file'], $filePath, $name);
             $relativePath = $filePath . '/' . $filename;
             $this->model->query()->create([
