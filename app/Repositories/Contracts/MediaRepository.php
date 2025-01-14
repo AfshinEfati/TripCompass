@@ -40,7 +40,7 @@ class MediaRepository implements MediaRepositoryInterface
             if (class_exists($modelClass)) {
                 $relatedModel = $modelClass::find($modelId);
                 if ($relatedModel)
-                    $name = Str::slug($relatedModel->name ?? collect(explode('/', $relatedModel->canonical))->last());
+                    $name = Str::slug($relatedModel->name ?? collect(explode('/', $relatedModel->canonical ?? rand(1, 99999)))->last());
             }
 
 
