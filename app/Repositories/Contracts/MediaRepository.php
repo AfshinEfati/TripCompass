@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 use App\Models\Media;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,7 +24,7 @@ class MediaRepository implements MediaRepositoryInterface
     /**
      * @throws Exception
      */
-    public function upload(array $data): void
+    public function upload(array $data): Collection
     {
         $data = (object)$data;
         $name = 'unknown';
@@ -47,12 +48,13 @@ class MediaRepository implements MediaRepositoryInterface
         }
         $priority = $lastMedia ? $lastMedia->priority : 0;
         $files = $data->files;
+        $final = Collection::make();
         foreach ($files as $i => $file) {
             $priority++;
             $name = $i ? "{$name}_{$i}" : $name;
             $filename = $this->getFilename($file['file'], $filePath, $name);
             $relativePath = $filePath . '/' . $filename;
-            $this->model->query()->create([
+            $doc = $this->model->query()->create([
                 'model_id' => (int)$data->model_id ?? null,
                 'model_type' => $data->model_type ?? null,
                 'file_name' => $filename,
@@ -63,7 +65,10 @@ class MediaRepository implements MediaRepositoryInterface
                 'file_type' => 'image',
                 'alt_text' => $file['alt_text'] ?? null,
             ]);
+            $final->push($doc);
         }
+
+        return $final;
     }
 
     /**
