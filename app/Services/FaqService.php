@@ -29,4 +29,9 @@ class FaqService
     {
         return $this->repository->destroy($id);
     }
+
+    public function findById(int $id)
+    {
+        return $this->repository->findById($id);
+    }
 }
