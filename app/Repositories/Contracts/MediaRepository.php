@@ -43,6 +43,7 @@ class MediaRepository implements MediaRepositoryInterface
                     $name = Str::slug($relatedModel->name ?? collect(explode('/', $relatedModel->canonical))->last());
             }
 
+
         }
         $priority = $lastMedia ? $lastMedia->priority : 0;
         $files = $data->files;
