@@ -14,15 +14,19 @@ class ContentResource extends JsonResource
 
     public function toArray(Request $request): array
     {
+        $words = 0;
+        if ( $this->content !== null) {
+            $words = explode(' ', strip_tags($this->content));
+            $words= count($words);
+        }
         return [
             'id' => $this->id,
             'title_fa' => $this->title_fa,
             'content' => $this->content,
             'created_at' => $this->formatDates($this->created_at),
             'updated_at' => $this->formatDates($this->updated_at),
-
             'seo_id' => $this->seo_id,
-
+            'words' => $words,
             'seo' => new SeoResource($this->whenLoaded('seo')),
         ];
     }

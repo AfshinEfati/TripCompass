@@ -36,7 +36,9 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
         return $this->model->query()->with([
             'content',
             'seoRelation',
-            'media'
+            'media',
+            'faqs',
+            'anchors'
         ])->find($seo->id);
     }
 

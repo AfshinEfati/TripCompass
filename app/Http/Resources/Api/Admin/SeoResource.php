@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\Admin;
 
 use App\Models\Seo;
 use App\Traits\StatusTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +27,8 @@ class SeoResource extends JsonResource
             'media' => MediaResource::collection($this->whenLoaded('media')),
             'anchors' => AnchorResource::collection($this->whenLoaded('anchors')),
             'faqs' => FaqResource::collection($this->whenLoaded('faqs')),
+            'today' =>$this->formatDates(Carbon::now()->format('Y-m-d H:i:s')),
+            'tomorrow' =>$this->formatDates(Carbon::tomorrow()->format('Y-m-d H:i:s')),
         ];
     }
 }
