@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\Frontend\FrontendController;
+use App\Http\Controllers\Api\V1\Frontend\Provider\SignupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,5 +54,21 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'frontend'], function () {
         Route::post('airports', [FrontendController::class, 'getAirports']);
         Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
+
+    });
+    Route::group(['prefix' => 'panel',/* 'middleware' => 'auth:provider'*/], function () {
+        Route::group(['prefix' => 'provider'], function () {
+            Route::post('/', [SignupController::class, 'register']);
+            Route::group(['prefix' => 'email'], function () {
+                Route::post('/verify', [SignupController::class, 'verifyEmail']);
+                Route::get('/verify/{id}/{hash}', [SignupController::class, 'verifyEmailHash']);
+                Route::post('/resend', [SignupController::class, 'resendEmail']);
+            });
+            Route::post('/upload-documents', [SignupController::class, 'uploadDocuments']);
+            Route::group(['prefix' => 'address'], function () {
+                Route::post('/create', [SignupController::class, 'addAddress']);
+            });
+            Route::post('/request-approval', [SignupController::class, 'requestApproval']);
+        });
     });
 });
