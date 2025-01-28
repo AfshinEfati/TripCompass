@@ -5,10 +5,12 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
-    protected Model $model;
+    protected Builder|Model|BelongsToMany|Relation $model;
 
     public function __construct(Model $model)
     {

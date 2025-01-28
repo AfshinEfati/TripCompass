@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\MediaRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class MediaService
 {
@@ -10,9 +11,9 @@ class MediaService
     {
     }
 
-    public function upload(array $data): void
+    public function upload(array $data): Collection
     {
-         $this->repository->upload($data);
+         return $this->repository->upload($data);
     }
 
 }

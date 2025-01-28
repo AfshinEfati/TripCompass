@@ -11,6 +11,7 @@ use App\Repositories\Contracts\ContentRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\FaqRepository;
 use App\Repositories\Contracts\MediaRepository;
+use App\Repositories\Contracts\ProviderRepository;
 use App\Repositories\Contracts\SeoRelationRepository;
 use App\Repositories\Contracts\SeoRepository;
 use App\Repositories\Contracts\ServiceRepository;
@@ -25,6 +26,7 @@ use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
+use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use App\Repositories\Interfaces\SeoRelationRepositoryInterface;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
@@ -40,6 +42,7 @@ use App\Services\ContentService;
 use App\Services\CountryService;
 use App\Services\FaqService;
 use App\Services\MediaService;
+use App\Services\ProviderService;
 use App\Services\SeoRelationService;
 use App\Services\SeoService;
 use App\Services\ServiceService;
@@ -77,9 +80,9 @@ class AppServiceProvider extends ServiceProvider
             return new UserService($app->make(UserRepositoryInterface::class));
         });
         // Bind the AgencyRepositoryInterface with the AgencyRepository and AgencyService
-        $this->app->bind(AgencyRepositoryInterface::class, AgencyRepository::class);
-        $this->app->bind(AgencyService::class, function ($app) {
-            return new AgencyService($app->make(AgencyRepositoryInterface::class));
+        $this->app->bind(ProviderRepositoryInterface::class, ProviderRepository::class);
+        $this->app->bind(ProviderService::class, function ($app) {
+            return new ProviderService($app->make(ProviderRepositoryInterface::class));
         });
         // Bind the AirlineRepositoryInterface with the AirlineRepository and AirlineService
         $this->app->bind(AirlineRepositoryInterface::class, AirlineRepository::class);
