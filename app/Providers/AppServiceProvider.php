@@ -124,6 +124,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AnchorService::class, function ($app) {
             return new AnchorService($app->make(AnchorRepositoryInterface::class));
         });
+        // Bind AgencyRepositoryInterface with AgencyRepository and AgencyService
+        $this->app->bind(AgencyRepositoryInterface::class, AgencyRepository::class);
+        $this->app->bind(AgencyService::class, function ($app) {
+            return new AgencyService($app->make(AgencyRepositoryInterface::class));
+        });
     }
 
     /**
