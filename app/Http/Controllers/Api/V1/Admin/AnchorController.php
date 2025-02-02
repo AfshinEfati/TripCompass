@@ -9,6 +9,7 @@ use App\Http\Resources\Api\Admin\AnchorResource;
 use App\Models\Anchor;
 use App\Services\AnchorService;
 use App\Traits\StatusTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AnchorController extends Controller
@@ -19,13 +20,13 @@ class AnchorController extends Controller
     {
     }
 
-    public function getAnchors($id)
+    public function getAnchors($id): JsonResponse
     {
         $anchors = $this->service->allBySeoId($id);
         return $this->successResponse(AnchorResource::collection($anchors), 'Anchors fetched successfully');
     }
 
-    public function storeAnchor(CreateAnchorRequest $request)
+    public function storeAnchor(CreateAnchorRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $anchor = $this->service->store($validated);
@@ -33,14 +34,14 @@ class AnchorController extends Controller
     }
 
 
-    public function updateAnchor(UpdateAnchorRequest $request, int $anchor_id)
+    public function updateAnchor(UpdateAnchorRequest $request, int $seo_id, int $anchor_id): JsonResponse
     {
         $validated = $request->validated();
         $anchor = $this->service->update($validated, $anchor_id);
         return $this->successResponse(new AnchorResource($anchor), 'Anchor updated successfully');
     }
 
-    public function destroyAnchor(int $anchor_id)
+    public function destroyAnchor(int $anchor_id): JsonResponse
     {
 
         $this->service->destroy($anchor_id);

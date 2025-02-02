@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property int $id
+ */
 class Seo extends Model
 {
     protected $fillable = ['title', 'description', 'canonical', 'robots'];

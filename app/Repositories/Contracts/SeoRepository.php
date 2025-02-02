@@ -37,8 +37,8 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
             'content',
             'seoRelation',
             'media',
-            'faqs',
-            'anchors'
+            'anchors',
+            'faqs'
         ])->find($seo->id);
     }
 

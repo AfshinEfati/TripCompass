@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Admin\CreateSeoRequest;
 use App\Http\Requests\Api\V1\Admin\UpdateSeoRequest;
 use App\Http\Requests\Api\V1\Admin\UploadMediaRequest;
+use App\Http\Resources\Api\Admin\MediaResource;
 use App\Http\Resources\Api\Admin\SeoResource;
 use App\Models\Seo;
 use App\Services\MediaService;
@@ -53,7 +54,7 @@ class SeoController extends Controller
     }
     public function upload(UploadMediaRequest $request): JsonResponse
     {
-        $this->mediaService->upload($request->validated());
-        return $this->successResponse(null, 'Media Uploaded');
+        $documents = $this->mediaService->upload($request->validated());
+        return $this->successResponse(MediaResource::collection($documents), 'Media Uploaded');
     }
 }

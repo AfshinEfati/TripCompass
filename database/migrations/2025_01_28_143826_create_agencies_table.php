@@ -13,14 +13,6 @@ return new class extends Migration
     {
         Schema::create('agencies', function (Blueprint $table) {
             $table->id();
-            $table->string('name_en')->unique();
-            $table->string('name_fa')->nullable();
-            $table->string('base_url');
-            $table->enum('contract_type', ['percentage', 'fixed'])->default('fixed');
-            $table->integer('commission_rate')->default(0);
-            $table->unsignedBigInteger('fixed_rate')->default(2000)->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
