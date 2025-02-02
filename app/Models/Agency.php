@@ -8,31 +8,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Agency extends Model
 {
+    protected $table = 'agencies';
+
     protected $fillable = [
+        'user_id',
         'name_en',
         'name_fa',
-        'base_url',
-        'contract_type',
-        'commission_rate',
-        'fixed_rate',
         'is_active',
-        'user_id',
     ];
-    /**
-     * Get the user associated with the agency.
-     *
-     * This function defines the relationship between the Agency model
-     * and the User model, indicating that an agency belongs to a user.
-     *
-     * @return BelongsTo The relationship instance.
-     */
-    public function user(): BelongsTo
+
+
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-    public function flights(): HasMany
+
+
+    public function services(): HasMany
     {
-        return $this->hasMany(Flight::class);
+        return $this->hasMany(AgencyService::class);
     }
 
 }

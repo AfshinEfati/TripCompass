@@ -23,7 +23,7 @@ jobs:
         env:
           SSHPASS: ${{ secrets.SSH_PASSWORD }}
         run: |
-          sshpass -e ssh -o StrictHostKeyChecking=no root@185.8.173.73 <<EOF
+          sshpass -e ssh -o StrictHostKeyChecking=no root@79.127.70.82 <<EOF
             cd /var/www/rundev.ir/backend
             git stash
             git pull origin main
