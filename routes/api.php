@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\AgencyController;
 use App\Http\Controllers\Api\V1\Admin\AirlineController;
 use App\Http\Controllers\Api\V1\Admin\AirportController;
 use App\Http\Controllers\Api\V1\Admin\AnchorController;
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('users', UserController::class);
         Route::apiResource('airlines', AirlineController::class);
         Route::apiResource('airports', AirportController::class);
+        Route::apiResource('agencies', AgencyController::class);
         Route::apiResource('seos', SeoController::class);
         Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
         Route::group(['prefix' => 'seos'], function () {
