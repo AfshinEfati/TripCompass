@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Admin\AgencyController;
+use App\Http\Controllers\Api\V1\Admin\AgencyServiceController;
 use App\Http\Controllers\Api\V1\Admin\AirlineController;
 use App\Http\Controllers\Api\V1\Admin\AirportController;
 use App\Http\Controllers\Api\V1\Admin\AnchorController;
@@ -37,6 +38,12 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airlines', AirlineController::class);
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('agencies', AgencyController::class);
+        Route::group(['prefix' => 'agencies'], function () {
+            Route::get('{agency_id}/services', [AgencyServiceController::class, 'getByAgencyId']);
+            Route::post('{agency_id}/services', [AgencyServiceController::class, 'store']);
+            Route::patch('{agency_id}/services/{service_id}', [AgencyServiceController::class, 'update']);
+            Route::delete('{agency_id}/services/{service_id}', [AgencyServiceController::class, 'destroy']);
+        });
         Route::apiResource('seos', SeoController::class);
         Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
         Route::group(['prefix' => 'seos'], function () {

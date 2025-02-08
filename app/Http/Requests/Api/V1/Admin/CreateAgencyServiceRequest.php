@@ -4,14 +4,14 @@ namespace App\Http\Requests\Api\V1\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAgencyRequest extends FormRequest
+class CreateAgencyServiceRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,id'],
-            'name_en' => ['required', 'string', 'max:255', 'unique:agencies,name_en'],
-            'name_fa' => ['required', 'string', 'max:255', 'unique:agencies,name_fa'],
+            'agency_id' => ['required', 'exists:agencies,id'],
+            'service_id' => ['required', 'exists:services,id'],
+            'config' => ['nullable', 'array'],
             'is_active' => ['boolean'],
         ];
     }

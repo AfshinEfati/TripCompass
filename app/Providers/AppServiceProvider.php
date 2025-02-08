@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\AgencyRepository;
+use App\Repositories\Contracts\AgencyServiceRepository;
 use App\Repositories\Contracts\AirlineRepository;
 use App\Repositories\Contracts\AirportRepository;
 use App\Repositories\Contracts\AnchorRepository;
@@ -18,6 +19,7 @@ use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Interfaces\AgencyRepositoryInterface;
+use App\Repositories\Interfaces\AgencyServiceRepositoryInterface;
 use App\Repositories\Interfaces\AirlineRepositoryInterface;
 use App\Repositories\Interfaces\AirportRepositoryInterface;
 use App\Repositories\Interfaces\AnchorRepositoryInterface;
@@ -34,6 +36,7 @@ use App\Repositories\Interfaces\StateRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Scopes\OrderByIdDescScope;
 use App\Services\AgencyService;
+use App\Services\AgencyServiceService;
 use App\Services\AirlineService;
 use App\Services\AirportService;
 use App\Services\AnchorService;
@@ -51,6 +54,7 @@ use App\Services\UserService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -128,6 +132,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AgencyRepositoryInterface::class, AgencyRepository::class);
         $this->app->bind(AgencyService::class, function ($app) {
             return new AgencyService($app->make(AgencyRepositoryInterface::class));
+        });
+        // Bind the AgencyServiceRepositoryInterface with the AgencyServiceRepository and AgencyServiceService
+        $this->app->bind(AgencyServiceRepositoryInterface::class, AgencyServiceRepository::class);
+        $this->app->bind(AgencyServiceService::class, function ($app) {
+            return new AgencyServiceService($app->make(AgencyServiceRepositoryInterface::class));
         });
     }
 

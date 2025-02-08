@@ -12,10 +12,12 @@ class AgencyService extends Model
     protected $fillable = [
         'agency_id',
         'service_id',
-        'endpoint_url',
-        'username',
-        'password',
+        'config',
         'is_active',
+    ];
+    protected $casts = [
+        'config' => 'array',
+        'is_active' => 'boolean',
     ];
 
 
