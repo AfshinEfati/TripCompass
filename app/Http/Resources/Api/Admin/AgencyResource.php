@@ -17,12 +17,9 @@ class AgencyResource extends JsonResource
             'id' => $this->id,
             'name_en' => $this->name_en,
             'name_fa' => $this->name_fa,
-            'base_url' => $this->base_url,
-            'contract_type' => $this->contract_type,
-            'commission_rate' => $this->commission_rate,
-            'fixed_rate' => $this->fixed_rate,
             'is_active' => $this->getStatus($this->is_active),
-            'user' => $this->relationLoaded('user') ? new UserResource($this->user) : null,
+            'owner' => UserResource::make($this->owner) ,
+            'services' => AgencyServiceResource::collection($this->services) ,
         ];
     }
 }

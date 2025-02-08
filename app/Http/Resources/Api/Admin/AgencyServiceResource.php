@@ -16,11 +16,7 @@ class AgencyServiceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'config' => [
-                'endpoint' => $this->config->endpoint??null,
-                'username' => $this->config->username??null,
-                'password' => $this->config->password??null,
-            ],
+            'config' =>$this->config,
             'is_active' => $this->is_active,
             'agency' => new AgencyResource($this->whenLoaded('agency')),
             'service' => new ServiceResource($this->whenLoaded('service')),
