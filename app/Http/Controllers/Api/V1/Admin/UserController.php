@@ -23,24 +23,24 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->service->all();
-        return $this->successResponse($users, 'Users retrieved successfully');
+        return $this->successResponse(UserResource::collection($users), 'Users retrieved successfully');
     }
 
     public function store(CreateUserRequest $request)
     {
         $user = $this->service->store($request->validated());
-        return $this->successResponse($user, 'User created successfully', 201);
+        return $this->successResponse(UserResource::make($user), 'User created successfully', 201);
     }
 
     public function show(User $user)
     {
-        return $this->successResponse($user, 'User retrieved successfully');
+        return $this->successResponse(UserResource::make($user), 'User retrieved successfully');
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
         $user= $this->service->update($request->validated(), $user);
-        return $this->successResponse($user, 'User updated successfully');
+        return $this->successResponse(UserResource::make($user), 'User updated successfully');
     }
 
     public function destroy(User $user)

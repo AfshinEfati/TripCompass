@@ -12,10 +12,14 @@ return new class extends Migration {
     {
         Schema::create('agency_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('agency_id')->constrained('agencies')->onDelete('cascade');
+            $table->foreignId('agency_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
-            $table->json('config')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('vendor'); // نام آژانس برای لود کلاس وندور
+            $table->json('config'); // اطلاعات API مثل endpoint, username, password
+            $table->integer('daily_request_limit')->default(-1); // تعداد درخواست روزانه (-1 یعنی نامحدود)
+            $table->integer('min_update_interval')->default(30); // حداقل فاصله بین آپدیت‌ها (برحسب دقیقه)
+            $table->boolean('no_route_restriction')->default(0); // اگر ۱ باشه، همه مسیرها رو ساپورت می‌کنه
+            $table->boolean('is_active')->default(1); // اگر ۰ باشه، این سرویس غیرفعاله
             $table->timestamps();
         });
     }

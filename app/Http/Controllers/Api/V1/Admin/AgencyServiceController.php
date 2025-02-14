@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Admin\CreateAgencyServiceRequest;
 use App\Http\Requests\Api\V1\Admin\UpdateAgencyServiceRequest;
 use App\Http\Resources\Api\Admin\AgencyServiceResource;
+use App\Models\Agency;
 use App\Models\AgencyService;
 use App\Services\AgencyServiceService;
 use App\Traits\StatusTrait;
@@ -49,9 +50,9 @@ class AgencyServiceController extends Controller
         return $this->successResponse(new AgencyServiceResource($agencyService), 'Service Updated Successfully');
     }
 
-    public function destroy(AgencyService $agencyService)
+    public function destroy(int $agencyId,int $agencyServiceId)
     {
-        $this->service->destroy($agencyService);
+        $this->service->destroy($agencyId,$agencyServiceId);
         return $this->successResponse([], 'Service Deleted Successfully');
     }
 }

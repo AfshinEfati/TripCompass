@@ -35,4 +35,8 @@ class AirportService
     {
         return $this->repository->getAirports($query);
     }
+    public function show(int $id)
+    {
+        return $this->repository->show($id);
+    }
 }

@@ -14,12 +14,13 @@ class AgencyServiceResource extends JsonResource
 
     public function toArray(Request $request): array
     {
+//        dd(ServiceResource::make($this->service));
         return [
             'id' => $this->id,
             'config' =>$this->config,
-            'is_active' => $this->is_active,
-            'agency' => new AgencyResource($this->whenLoaded('agency')),
-            'service' => new ServiceResource($this->whenLoaded('service')),
+            'is_active' => $this->getStatus($this->is_active),
+//            'agency' => AgencyResource::make($this->agency),
+            'service' => ServiceResource::make($this->service),
             'created_at' => $this->formatDates($this->created_at),
             'updated_at' => $this->formatDates($this->updated_at),
 

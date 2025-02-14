@@ -12,7 +12,11 @@ class AgencyService extends Model
     protected $fillable = [
         'agency_id',
         'service_id',
+        'vendor',
         'config',
+        'daily_request_limit',
+        'min_update_interval',
+        'no_route_restriction',
         'is_active',
     ];
     protected $casts = [

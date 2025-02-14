@@ -10,14 +10,10 @@ class UpdateAgencyRequest extends FormRequest
     {
         $id = $this->route('agency')->id;
         return [
-            'name_en' => ['required', 'unique:agencies,name_en,' . $id],
-            'name_fa' => ['nullable', 'unique:agencies,name_fa,' . $id],
-            'base_url' => ['required', 'url', 'unique:agencies,base_url,' . $id],
-            'contract_type' => ['required', 'in:fixed,percentage'],
-            'commission_rate' => ['required_if:contract_type,percentage', 'integer', 'min:0', 'max:100'],
-            'fixed_rate' => ['required_if:contract_type,fixed', 'integer', 'min:0'],
             'user_id' => ['required', 'exists:users,id'],
-            'is_active' => ['boolean', 'nullable'],
+            'name_en' => ['required', 'string', 'max:255', 'unique:agencies,name_en,'.$id],
+            'name_fa' => ['required', 'string', 'max:255', 'unique:agencies,name_fa,'.$id],
+            'is_active' => ['boolean'],
         ];
     }
 

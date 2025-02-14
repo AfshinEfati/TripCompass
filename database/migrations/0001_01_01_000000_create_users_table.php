@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('token')->nullable();
             $table->unsignedBigInteger('balance')->default(0);
+            $table->unsignedBigInteger('lock_balance')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

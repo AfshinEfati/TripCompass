@@ -18,4 +18,14 @@ class AgencyServiceRepository extends BaseRepository implements AgencyServiceRep
     {
         return $this->model->where('agency_id', $agencyId)->get();
     }
+
+    public function delete($agencyId, $agencyServiceId): bool
+    {
+        $service  = $this->model->where('agency_id', $agencyId)->where('id', $agencyServiceId)->first();
+        if ($service) {
+            $service->delete();
+            return true;
+        }
+        return false;
+    }
 }

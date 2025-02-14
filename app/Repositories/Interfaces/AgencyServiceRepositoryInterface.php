@@ -8,4 +8,5 @@ interface AgencyServiceRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function getByAgencyId($agencyId);
+    public function delete($agencyId,$agencyServiceId);
 }
