@@ -13,4 +13,23 @@ class AirlineRepository extends BaseRepository implements AirlineRepositoryInter
     {
         parent::__construct($model);
     }
+
+    public function getAirlineIdByCode($code)
+    {
+        $airline =  $this->model->where('iata_code', $code)->first()->id;
+        if ($airline) {
+            return $airline;
+        }else{
+            return $this->model->create([
+                'name_en'=>$code,
+                'name_fa'=>$code,
+                'iata_code'=>$code,
+                'icao_code'=>$code,
+                'country_id'=>1,
+                'logo_url'=>'default.png',
+                'is_active'=>1,
+                'description'=>'default',
+            ]);
+        }
+    }
 }

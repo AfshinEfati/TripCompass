@@ -7,4 +7,5 @@ use App\Repositories\BaseRepositoryInterface;
 interface AirlineRepositoryInterface extends BaseRepositoryInterface
 {
 
+    public function getAirlineIdByCode($code);
 }

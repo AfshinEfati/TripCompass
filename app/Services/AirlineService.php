@@ -29,4 +29,8 @@ class AirlineService
     {
         return $this->repository->destroy($airline->id);
     }
+    public function getAirlineIdByCode($code)
+    {
+        return $this->repository->getAirlineIdByCode($code);
+    }
 }

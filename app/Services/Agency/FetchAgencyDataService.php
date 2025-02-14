@@ -1,30 +1,34 @@
 <?php
 namespace App\Services\Agency;
 
+use App\Models\Agency;
 use App\Models\AgencyService;
 use App\Models\AgencyRoute;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Flight;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class FetchAgencyDataService {
+    /**
+     * @throws Throwable
+     */
     public function fetchAllFlights(): string
     {
+        \Log::info("FetchFlightsJob started.");
         $services = AgencyService::where('service_id', 1)->get();
-
         foreach ($services as $service) {
             $vendor = $service->vendor;
             $vendorClass = "App\\Services\\Agency\\Vendors\\{$vendor}\\{$vendor}Service";
-
             if (!class_exists($vendorClass)) {
                 \Log::error("Vendor class {$vendorClass} not found for agency {$service->agency_id}");
                 continue;
             }
 
             $config = $service->config;
+            $config['agency_id'] = $service->agency_id;
             $vendorInstance = new $vendorClass($config);
 
-            // دریافت مسیرهای پروازی مرتبط با این آژانس
             $routes = AgencyRoute::where('agency_id', $service->agency_id)->get();
 
             foreach ($routes as $route) {
@@ -32,33 +36,61 @@ class FetchAgencyDataService {
                 $destination = $route->destination_id;
                 $today = Carbon::today();
 
-                for ($i = 0; $i < 7; $i++) { // گرفتن اطلاعات پرواز یک هفته آینده
+                for ($i = 0; $i < 7; $i++) {
                     $flightDate = $today->copy()->addDays($i)->toDateString();
-
-                    // ساختن بدنه درخواست POST
                     $requestData = [
                         'origin' => $origin,
                         'destination' => $destination,
                         'date' => $flightDate,
-                        'flight_type' => 'one_way', // فعلاً فقط یک‌طرفه
+                        'flight_type' => 'one_way',
                         'passengers' => [
-                            'ADT' => 1, // همیشه یک نفر بزرگسال
-                            'CHD' => 0, // بدون کودک
-                            'INF' => 0  // بدون نوزاد
+                            'ADT' => 1,
+                            'CHD' => 0,
+                            'INF' => 0
                         ]
                     ];
+                    $flights = $vendorInstance->fetchFlights($requestData);
 
-                    // ارسال درخواست به API آژانس
-                    $data = $vendorInstance->fetchFlights($requestData);
-
-                    if ($data) {
-                        $cacheKey = "flights_{$service->agency_id}_{$origin}_{$destination}_{$flightDate}";
-                        Cache::put($cacheKey, $data, now()->addMinutes(30));
+                    if (!empty($flights)) {
+                        $this->storeFlightsInDatabase($flights, $service->agency_id);
                     }
                 }
             }
         }
-
+        \Log::info("FetchFlightsJob completed.");
         return "All flights fetched for the next week.";
+    }
+
+    /**
+     * @throws Throwable
+     */
+    private function storeFlightsInDatabase(array $flights, int $agencyId): void
+    {
+        if (!Agency::where('id', $agencyId)->exists()) {
+            return;
+        }
+        DB::transaction(function () use ($flights, $agencyId) {
+            foreach ($flights as $flightData) {
+                $existingFlight = Flight::where([
+                    'flight_number' => $flightData['flight_number'],
+                    'departure_time' => $flightData['departure_time'],
+                    'origin_id' => $flightData['origin_id'],
+                    'destination_id' => $flightData['destination_id'],
+                    'agency_id' => $agencyId,
+                ])->first();
+
+                if ($existingFlight) {
+                    $existingFlight->update([
+                        'price_details' => $flightData['price_details'],
+                        'capacity' => $flightData['capacity'],
+                        'class' => $flightData['class'],
+                        'baggage' => $flightData['baggage'],
+                        'currency' => $flightData['currency'],
+                    ]);
+                } else {
+                    Flight::create($flightData);
+                }
+            }
+        });
     }
 }
