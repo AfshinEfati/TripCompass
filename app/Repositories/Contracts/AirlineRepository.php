@@ -16,11 +16,11 @@ class AirlineRepository extends BaseRepository implements AirlineRepositoryInter
 
     public function getAirlineIdByCode($code)
     {
-        $airline =  $this->model->where('iata_code', $code)->first()->id;
+        $airline =  $this->model->where('iata_code', $code)->first();
         if ($airline) {
-            return $airline;
+            return $airline->id;
         }else{
-            return $this->model->create([
+            $airline= $this->model->create([
                 'name_en'=>$code,
                 'name_fa'=>$code,
                 'iata_code'=>$code,
@@ -30,6 +30,7 @@ class AirlineRepository extends BaseRepository implements AirlineRepositoryInter
                 'is_active'=>1,
                 'description'=>'default',
             ]);
+            return $airline->id;
         }
     }
 }

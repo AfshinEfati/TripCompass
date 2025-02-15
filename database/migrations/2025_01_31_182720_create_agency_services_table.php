@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('agency_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
-            $table->string('vendor'); // نام آژانس برای لود کلاس وندور
-            $table->json('config'); // اطلاعات API مثل endpoint, username, password
+            $table->string('vendor')->nullable(); // نام آژانس برای لود کلاس وندور
+            $table->json('config')->nullable(); // اطلاعات API مثل endpoint, username, password
             $table->integer('daily_request_limit')->default(-1); // تعداد درخواست روزانه (-1 یعنی نامحدود)
             $table->integer('min_update_interval')->default(30); // حداقل فاصله بین آپدیت‌ها (برحسب دقیقه)
             $table->boolean('no_route_restriction')->default(0); // اگر ۱ باشه، همه مسیرها رو ساپورت می‌کنه
