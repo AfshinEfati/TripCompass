@@ -8,6 +8,7 @@ use App\Services\AirlineService;
 use App\Services\AirportService;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SepehrhubService implements VendorAPI
 {
@@ -40,7 +41,7 @@ class SepehrhubService implements VendorAPI
                     "FlightDate" => $requestData['date'],
                 ]
             ],
-            "FetchSupplierWebserviceFlights" => false,
+            "FetchSupplierWebserviceFlights" => true,
             "FetchFlightsThatAreRestrictedForTour" => false,
             "Language" => "FA"
         ];
@@ -50,6 +51,7 @@ class SepehrhubService implements VendorAPI
             'Accept' => 'application/json',
             'Accept-Encoding' => 'gzip, deflate',
         ];
+        Log::info('body : '.json_encode($body));
         $response = Http::withHeaders($headers)->post($this->config['endpoint'], $body);
         if (!$response->successful()) {
             return [];
