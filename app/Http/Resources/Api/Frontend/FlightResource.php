@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Resources\Api\Admin;
+namespace App\Http\Resources\Api\Frontend;
 
+
+use App\Http\Resources\Api\Admin\AirlineResource;
+use App\Http\Resources\Api\Admin\AirportResource;
 use App\Models\Flight;
-use App\Traits\StatusTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin Flight */
 class FlightResource extends JsonResource
 {
-    use StatusTrait;
     public function toArray(Request $request): array
     {
         return [
@@ -30,7 +31,10 @@ class FlightResource extends JsonResource
             'destination_id' => $this->destination_id,
             'airline_id' => $this->airline_id,
             'agency_id' => $this->agency_id,
-            'agency' => new AgencyResource($this->whenLoaded('agency')),
+            'agency' => [
+                'name_en' => $this->agency->name_en,
+                'name_fa' => $this->agency->name_fa
+            ],
             'airline' => new AirlineResource($this->whenLoaded('airline')),
             'destination' => new AirportResource($this->whenLoaded('destination')),
             'origin' => new AirportResource($this->whenLoaded('origin')),

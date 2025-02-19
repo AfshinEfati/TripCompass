@@ -19,7 +19,6 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
             ->with(['origin','destination','airline','agency'])
             ->where('origin_id', $data['origin_id'])
             ->where('destination_id', $data['destination_id'])
-            ->whereDate('departure_time', $data['date'])
-            ->where('status', 'available')->get();
+            ->whereDate('departure_time', $data['date'])->get();
     }
 }
