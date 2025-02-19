@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Frontend\FlightController;
 use App\Http\Controllers\Api\V1\Frontend\FrontendController;
 use App\Http\Controllers\Api\V1\Frontend\Provider\SignupController;
 use App\Jobs\FetchAgencyFlightsJob;
@@ -66,6 +67,9 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'frontend'], function () {
         Route::post('airports', [FrontendController::class, 'getAirports']);
+        Route::group(['prefix' => 'flight'],function (){
+           Route::post('availability',[FlightController::class,'availability']);
+        });
         Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
 
     });

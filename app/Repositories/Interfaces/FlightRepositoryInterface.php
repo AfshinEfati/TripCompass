@@ -7,4 +7,5 @@ use App\Repositories\BaseRepositoryInterface;
 interface FlightRepositoryInterface extends BaseRepositoryInterface
 {
 
+    public function availability(array $data);
 }

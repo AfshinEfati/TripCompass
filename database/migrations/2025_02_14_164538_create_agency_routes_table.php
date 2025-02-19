@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,6 +20,8 @@ return new class extends Migration
             $table->timestamp('last_updated')->nullable(); // زمان آخرین آپدیت مسیر
             $table->boolean('auto_generated')->default(0); // مسیر دستی یا خودکار ساخته‌شده
             $table->timestamps();
+            $table->unique(['agency_id', 'origin_id', 'destination_id']);
+
         });
     }
 

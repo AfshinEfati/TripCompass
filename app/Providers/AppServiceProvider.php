@@ -11,6 +11,7 @@ use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ContentRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\FaqRepository;
+use App\Repositories\Contracts\FlightRepository;
 use App\Repositories\Contracts\MediaRepository;
 use App\Repositories\Contracts\ProviderRepository;
 use App\Repositories\Contracts\SeoRelationRepository;
@@ -27,6 +28,7 @@ use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
+use App\Repositories\Interfaces\FlightRepositoryInterface;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use App\Repositories\Interfaces\SeoRelationRepositoryInterface;
@@ -44,6 +46,7 @@ use App\Services\CityService;
 use App\Services\ContentService;
 use App\Services\CountryService;
 use App\Services\FaqService;
+use App\Services\FlightService;
 use App\Services\MediaService;
 use App\Services\ProviderService;
 use App\Services\SeoRelationService;
@@ -137,6 +140,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AgencyServiceRepositoryInterface::class, AgencyServiceRepository::class);
         $this->app->bind(AgencyServiceService::class, function ($app) {
             return new AgencyServiceService($app->make(AgencyServiceRepositoryInterface::class));
+        });
+        // Bind The FlightRepositoryInterface with the FlightRepository and FlightService
+        $this->app->bind(FlightRepositoryInterface::class, FlightRepository::class);
+        $this->app->bind(FlightService::class, function ($app) {
+            return new FlightService($app->make(FlightRepositoryInterface::class));
         });
     }
 
