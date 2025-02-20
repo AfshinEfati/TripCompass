@@ -21,21 +21,18 @@ class AgencyServiceController extends Controller
 
     }
 
-    public function index()
+    public function index(Agency $agency)
     {
-
-    }
-    public function getByAgencyId($agencyId)
-    {
-        $services =  $this->service->getByAgencyId($agencyId);
+        $services =  $this->service->getByAgencyId($agency->id);
         if ($services->isEmpty()) {
             return $this->successResponse([], 'No Services Found');
         }
         return $this->successResponse(AgencyServiceResource::collection($services), 'All Services');
     }
-    public function store(CreateAgencyServiceRequest $request)
+
+    public function store(Agency $agency,CreateAgencyServiceRequest $request)
     {
-        $service =  $this->service->store($request->validated());
+        $service =  $this->service->store($agency,$request->validated());
         return $this->successResponse(new AgencyServiceResource($service), 'Service Created Successfully');
     }
 

@@ -41,7 +41,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airlines', AirlineController::class);
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('agencies', AgencyController::class);
-        Route::group(['prefix' => 'agencies/{agency_id}'], function () {
+        Route::group(['prefix' => 'agencies/{agency}'], function () {
             Route::apiResource('services', AgencyServiceController::class);
         });
         Route::apiResource('seos', SeoController::class);

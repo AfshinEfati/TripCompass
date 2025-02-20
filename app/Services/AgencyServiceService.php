@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Models\Agency;
 use App\Models\AgencyService;
 use App\Repositories\Interfaces\AgencyServiceRepositoryInterface;
 
@@ -14,9 +15,10 @@ class AgencyServiceService
         return $this->repository->all();
     }
 
-    public function store(mixed $validated)
+    public function store(Agency $agency,array $data)
     {
-        return $this->repository->store($validated);
+
+        return $this->repository->storeByAgency($agency,$data);
     }
 
     public function update(mixed $validated, AgencyService $agencyService)
