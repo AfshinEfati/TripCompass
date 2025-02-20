@@ -27,9 +27,10 @@ jobs:
             cd /var/www/rundev.ir/backend
             git stash
             git pull origin main
-            composer install
             php artisan migrate
-            php artisan config:cache
-            php artisan route:cache
+            php artisan config:clear
+            php artisan route:clear
+            php artisan cache:clear
+            composer install
             exit
           EOF
