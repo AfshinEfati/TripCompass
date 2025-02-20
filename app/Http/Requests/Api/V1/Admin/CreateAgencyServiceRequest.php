@@ -8,7 +8,7 @@ class CreateAgencyServiceRequest extends FormRequest
 {
     protected function prepareForValidation(): void
     {
-        $agencyId = $this->route('agency');
+        $agencyId = $this->route('agency')->id;
 
         $this->merge([
             'agency_id' => (int)$agencyId,

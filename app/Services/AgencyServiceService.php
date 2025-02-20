@@ -35,4 +35,9 @@ class AgencyServiceService
     {
         return $this->repository->getByAgencyId($agencyId);
     }
+
+    public function updateByAgencyId(Agency $agency, AgencyService $agencyService, mixed $validated)
+    {
+        return $this->repository->updateByAgencyId($agency,$agencyService,$validated);
+    }
 }

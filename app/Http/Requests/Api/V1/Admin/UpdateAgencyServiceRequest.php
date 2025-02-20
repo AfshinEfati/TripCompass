@@ -9,7 +9,6 @@ class UpdateAgencyServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'agency_id' => ['required', 'exists:agencies,id'],
             'service_id' => ['required', 'exists:services,id'],
             'config' => ['nullable'],
             'is_active' => ['boolean'],

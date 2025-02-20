@@ -35,4 +35,11 @@ class AgencyServiceRepository extends BaseRepository implements AgencyServiceRep
         $data['agency_id'] = $agency->id;
         return $this->model->create($data);
     }
+
+    public function updateByAgencyId(Agency $agency, AgencyService $agencyService, mixed $validated): bool
+    {
+        $validated['agency_id']=$agency->id;
+        return $this->model->query()->findOrFail($agencyService->id)->update($validated);
+
+    }
 }
