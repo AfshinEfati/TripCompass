@@ -30,7 +30,7 @@ class AgencyServiceRepository extends BaseRepository implements AgencyServiceRep
         if (!$service)
             throw new ModelNotFoundException("این سرویس متعلق به این آژانس نیست.");
 
-        retrun $service->delete();
+        return $service->delete();
 
     }
 
