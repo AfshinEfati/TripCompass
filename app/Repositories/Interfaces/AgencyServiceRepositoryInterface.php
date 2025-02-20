@@ -11,7 +11,7 @@ interface AgencyServiceRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function getByAgencyId($agencyId);
-    public function delete($agencyId,$agencyServiceId);
+    public function delete(Agency $agency,AgencyService $agencyService);
     public function update(Model $model, array $data);
 
     public function storeByAgency(Agency $agency, array $data);

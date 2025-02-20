@@ -26,9 +26,9 @@ class AgencyServiceService
         return $this->repository->update($agencyService,$validated);
     }
 
-    public function destroy($agencyId,$agencyServiceId)
+    public function destroy(Agency $agency,AgencyService $agencyService)
     {
-        return $this->repository->delete($agencyId,$agencyServiceId);
+        return $this->repository->delete($agency,$agencyService);
     }
 
     public function getByAgencyId($agencyId)

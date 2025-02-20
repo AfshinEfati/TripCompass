@@ -41,15 +41,15 @@ class AgencyServiceController extends Controller
         return $this->successResponse(new AgencyServiceResource($agencyService), 'Service Details');
     }
 
-    public function update(Agency $agency,AgencyService $agencyService , UpdateAgencyServiceRequest $request)
+    public function update(Agency $agency,AgencyService $service , UpdateAgencyServiceRequest $request)
     {
-        $agencyService =  $this->service->updateByAgencyId($agency,$agencyService,$request->validated());
+        $agencyService =  $this->service->updateByAgencyId($agency,$service,$request->validated());
         return $this->successResponse(new AgencyServiceResource($agencyService), 'Service Updated Successfully');
     }
 
-    public function destroy(int $agencyId,int $agencyServiceId)
+    public function destroy(Agency $agency,AgencyService $service)
     {
-        $this->service->destroy($agencyId,$agencyServiceId);
+        $this->service->destroy($agency,$service);
         return $this->successResponse([], 'Service Deleted Successfully');
     }
 }
