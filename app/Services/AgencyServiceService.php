@@ -21,7 +21,7 @@ class AgencyServiceService
 
     public function update(mixed $validated, AgencyService $agencyService)
     {
-        return $this->repository->update($validated, $agencyService->id);
+        return $this->repository->update($agencyService,$validated);
     }
 
     public function destroy($agencyId,$agencyServiceId)

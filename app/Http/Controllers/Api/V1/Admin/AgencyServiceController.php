@@ -46,7 +46,7 @@ class AgencyServiceController extends Controller
 
     public function update(UpdateAgencyServiceRequest $request, AgencyService $agencyService)
     {
-        $agencyService =  $this->service->update($agencyService, $request->validated());
+        $agencyService =  $this->service->update($request->validated(),$agencyService);
         return $this->successResponse(new AgencyServiceResource($agencyService), 'Service Updated Successfully');
     }
 

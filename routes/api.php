@@ -22,8 +22,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-
-
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -43,11 +41,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airlines', AirlineController::class);
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('agencies', AgencyController::class);
-        Route::group(['prefix' => 'agencies'], function () {
-            Route::get('{agency_id}/services', [AgencyServiceController::class, 'getByAgencyId']);
-            Route::post('{agency_id}/services', [AgencyServiceController::class, 'store']);
-            Route::patch('{agency_id}/services/{service_id}', [AgencyServiceController::class, 'update']);
-            Route::delete('{agency_id}/services/{service_id}', [AgencyServiceController::class, 'destroy']);
+        Route::group(['prefix' => 'agencies/{agency_id}'], function () {
+            Route::apiResource('services', AgencyServiceController::class);
         });
         Route::apiResource('seos', SeoController::class);
         Route::post('seos/{seo}/upload', [SeoController::class, 'upload']);
@@ -67,8 +62,8 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'frontend'], function () {
         Route::post('airports', [FrontendController::class, 'getAirports']);
-        Route::group(['prefix' => 'flight'],function (){
-           Route::post('availability',[FlightController::class,'availability']);
+        Route::group(['prefix' => 'flight'], function () {
+            Route::post('availability', [FlightController::class, 'availability']);
         });
         Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
 

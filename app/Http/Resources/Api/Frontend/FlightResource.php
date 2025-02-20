@@ -6,12 +6,14 @@ namespace App\Http\Resources\Api\Frontend;
 use App\Http\Resources\Api\Admin\AirlineResource;
 use App\Http\Resources\Api\Admin\AirportResource;
 use App\Models\Flight;
+use App\Traits\StatusTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin Flight */
 class FlightResource extends JsonResource
 {
+    use StatusTrait;
     public function toArray(Request $request): array
     {
         return [
