@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json([
                 'success' => false,
                 'data' => null,
-                'message' => 'Not found',
+                'message' => $e->getMessage(),
             ], 404);
         });
     })->create();
