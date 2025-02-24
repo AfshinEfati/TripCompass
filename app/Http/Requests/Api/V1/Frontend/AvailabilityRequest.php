@@ -9,8 +9,8 @@ class AvailabilityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'origin' => ['required', 'integer', 'exists:airports,iata_code'],
-            'destination' => ['required', 'integer', 'exists:airports,iata_code'],
+            'origin' => ['required', 'string', 'max:3', 'exists:airports,iata_code'],
+            'destination' => ['required', 'string', 'max:3', 'exists:airports,iata_code'],
             'date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
             'trip_type' => ['required', 'in:one_way,rounded'],
             'return_date' => ['required_if:trip_type,rounded', 'date', 'after_or_equal:date', 'date_format:Y-m-d']

@@ -46,4 +46,49 @@ trait StatusTrait
             'iso' => Carbon::make($date)->toIso8601String(),
         ];
     }
+    public function getCabinType(string $cabinType): array
+    {
+        $cabinType = strtolower($cabinType);
+        $cabinTypes = [
+            'economy' => [
+                'name' => 'economy',
+                'fa_name' => 'اکونومی',
+                'code' => 'Y',
+                'number' => 1
+            ],
+            'premium economy' => [
+                'name' => 'premium economy',
+                'fa_name' => 'پریمیوم اکونومی',
+                'code' => 'S',
+                'number' => 2
+            ],
+            'business' => [
+                'name' => 'business',
+                'fa_name' => 'بیزینس',
+                'code' => 'C',
+                'number' => 3
+            ],
+            'premium business' => [
+                'name' => 'premium business',
+                'fa_name' => 'پریمیوم بیزینس',
+                'code' => 'J',
+                'number' => 4
+            ],
+            'first class' => [
+                'name' => 'first class',
+                'fa_name' => 'فرست کلس',
+                'code' => 'F',
+                'number' => 5
+            ],
+            'premium first class' => [
+                'name' => 'premium first class',
+                'fa_name' => 'پریمیوم فرست کلس',
+                'code' => 'P',
+                'number' => 6
+            ],
+        ];
+
+        return $cabinTypes[$cabinType] ?? $cabinTypes['economy'];
+    }
+
 }

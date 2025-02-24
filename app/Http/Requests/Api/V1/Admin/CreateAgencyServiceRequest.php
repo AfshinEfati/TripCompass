@@ -12,8 +12,7 @@ class CreateAgencyServiceRequest extends FormRequest
     {
         $agencyId = $this->route('agency')->id;
         $agency = Agency::find($agencyId);
-        $service = Service::find($this->service_id);
-        $name = ucfirst($agency->name_en) . ucfirst($service->name_en);
+        $name = ucfirst($agency->name_en);
         $this->merge([
             'agency_id' => (int)$agencyId,
             'vendor' => $name
