@@ -8,4 +8,6 @@ interface AirportRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function getAirports(string|null $query);
+
+    public function getByIataCode(mixed $destination);
 }

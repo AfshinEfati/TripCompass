@@ -65,7 +65,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'flight'], function () {
             Route::post('availability', [FlightController::class, 'availability']);
         });
-        Route::get('{canonicalUrl}', [FrontendController::class, 'getByCanonicalUrl']);
+        Route::post('/page', [FrontendController::class, 'getByCanonicalUrl']);
 
     });
     Route::group(['prefix' => 'panel',/* 'middleware' => 'auth:provider'*/], function () {

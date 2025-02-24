@@ -34,7 +34,7 @@ trait StatusTrait
             'success' => false,
             'data' => $data,
             'message' => $message
-        ]);
+        ],404);
     }
     public function formatDates($date): array
     {

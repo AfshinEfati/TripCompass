@@ -39,4 +39,9 @@ class AirportService
     {
         return $this->repository->show($id);
     }
+
+    public function getByIataCode(mixed $destination)
+    {
+        return $this->repository->getByIataCode($destination);
+    }
 }

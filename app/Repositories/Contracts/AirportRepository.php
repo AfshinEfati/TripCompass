@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\AirportRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AirportRepository extends BaseRepository implements AirportRepositoryInterface
 {
@@ -45,4 +46,11 @@ class AirportRepository extends BaseRepository implements AirportRepositoryInter
         return $builder->get();
     }
 
+    public function getByIataCode(mixed $destination)
+    {
+        $airport =  $this->model->query()->where('iata_code',$destination)->first();
+        if (!$airport)
+            throw new ModelNotFoundException("not found");
+        return $airport->id;
+    }
 }

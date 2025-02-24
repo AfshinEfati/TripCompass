@@ -19,8 +19,9 @@ class FrontendController extends Controller
     {
     }
 
-    public function getByCanonicalUrl(string $canonicalUrl): JsonResponse
+    public function getByCanonicalUrl(Request $request): JsonResponse
     {
+        $canonicalUrl = $request->canonicalUrl;
 
         $page = $this->seoService->getByCanonical($canonicalUrl);
         if (!$page) {
