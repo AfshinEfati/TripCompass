@@ -6,6 +6,7 @@ use App\DTOs\FlightDTO;
 use App\Services\Agency\VendorAPI;
 use App\Services\AirlineService;
 use App\Services\AirportService;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -22,6 +23,9 @@ class FlightService implements VendorAPI
         $this->airlineService = app(AirlineService::class);
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function fetchFlights(array $requestData): array
     {
         $origin = $this->airportService->show($requestData['origin'])->iata_code;
@@ -40,17 +44,14 @@ class FlightService implements VendorAPI
             'Accept' => 'application/json',
 
         ];
-        Log::info('body : ' . json_encode($body));
+
         $response = Http::withHeaders($headers)->post($this->config['endpoint'], $body);
         if (!$response->successful()) {
             return [];
         }
         $result = $response->json();
         $vendorFlights = $result['flights'] ?? [];
-        $flights = $this->mapMarcoProFlightsToDTO($vendorFlights, $requestData);
-
-
-        return $flights;
+        return $this->mapMarcoProFlightsToDTO($vendorFlights, $requestData);
     }
 
     public function fetchHotels()

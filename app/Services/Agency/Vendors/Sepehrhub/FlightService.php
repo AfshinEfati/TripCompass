@@ -51,7 +51,7 @@ class FlightService implements VendorAPI
             'Accept' => 'application/json',
             'Accept-Encoding' => 'gzip, deflate',
         ];
-        Log::info('body : '.json_encode($body));
+
         $response = Http::withHeaders($headers)->post($this->config['endpoint'], $body);
         if (!$response->successful()) {
             return [];
