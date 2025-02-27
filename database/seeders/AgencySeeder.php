@@ -51,5 +51,42 @@ class AgencySeeder extends Seeder
         ];
         $agency->services()->create($agencyService);
 
+
+        $user = User::create([
+            'name' => 'Marcopro',
+            'email' => 'marco@example.com',
+            'mobile' => '9357547462',
+            'username' => 'Marcopro',
+            'avatar' => 'default.png',
+            'is_admin' => 0,
+            'is_active' => 1,
+            'password' => '$2y$10$3',
+            'token' => '$2y$10$3',
+            'balance' => 0,
+            'lock_balance' => 0,
+        ]);
+
+        $data = [
+            'name_en' => 'Marcopro',
+            'name_fa' => 'مارکوپرو',
+            'user_id' => $user->id,
+            'is_active' => true,
+        ];
+        $agency = Agency::create($data);
+        $agencyService = [
+            'agency_id' => $agency->id,
+            'service_id'=>1,
+            'vendor'=> 'Marcopro',
+            'config' => [
+                'endpoint' => 'https://api.shahansafar.ir/api/v2/ParsTrip/Flight/Search',
+            ],
+            'daily_request_limit' => -1,
+            'min_update_interval' => 30,
+            'no_route_restriction' => 0,
+            'is_active' => 1,
+
+        ];
+        $agency->services()->create($agencyService);
+
     }
 }
