@@ -28,6 +28,7 @@ return new class extends Migration
             $table->boolean('is_charter')->default(false);
             $table->json('baggage')->nullable();
             $table->string('currency')->default('IRR');
+            $table->string('call_back')->nullable();
             $table->timestamps();
         });
     }

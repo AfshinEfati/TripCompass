@@ -23,7 +23,8 @@ class Flight extends Model
         'baggage',
         'currency',
         'cabin_type',
-        'is_charter'
+        'is_charter',
+        'call_back',
     ];
 
     protected $casts = [
