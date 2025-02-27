@@ -13,10 +13,7 @@ class AgencyRouteSeeder extends Seeder
     public function run(): void
     {
         $agencies = Agency::all();
-        if (!$agency) {
-            $this->command->warn('Agency Sepehrhub not found. Skipping route seeding.');
-            return;
-        }
+
         $airports = Airport::where('domestic_flight', 1)->pluck('id')->toArray();
 
         $allDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
