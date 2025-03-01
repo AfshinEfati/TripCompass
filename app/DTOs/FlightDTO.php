@@ -21,6 +21,7 @@ class FlightDTO
     public bool $is_charter;
     public array $baggage;
     public string $currency;
+    public string $call_back;
 
     public function __construct(array $data)
     {
@@ -46,6 +47,7 @@ class FlightDTO
             'cabin' => '0kg'
         ];
         $this->currency = $data['currency'] ?? 'IRR';
+        $this->call_back = $data['call_back']??null;
     }
 
     public function toArray(): array
@@ -66,6 +68,7 @@ class FlightDTO
             'is_charter' => $this->is_charter,
             'baggage' => $this->baggage,
             'currency' => $this->currency,
+            'call_back'=>$this->call_back,
         ];
     }
 }
