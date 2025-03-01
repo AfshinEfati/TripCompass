@@ -24,7 +24,6 @@ class FlightService implements VendorAPI
     }
 
     /**
-     * @throws ConnectionException
      */
     public function fetchFlights(array $requestData): array
     {
@@ -44,15 +43,18 @@ class FlightService implements VendorAPI
             'Accept' => 'application/json',
 
         ];
-
-        $response = Http::withHeaders($headers)->post($this->config['endpoint'], $body);
-        \Log::info("maro response : " . $response->successful());
-        if (!$response->successful()) {
+        try {
+            $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
+            if (!$response->successful()) {
+                return [];
+            }
+            $result = $response->json();
+            $vendorFlights = $result['flights'] ?? [];
+            return $this->mapMarcoProFlightsToDTO($vendorFlights, $requestData);
+        } catch (\Throwable $e) {
+            \Log::error("❌ Exception in Marcopro fetchFlights(): " . $e->getMessage());
             return [];
         }
-        $result = $response->json();
-        $vendorFlights = $result['flights'] ?? [];
-        return $this->mapMarcoProFlightsToDTO($vendorFlights, $requestData);
     }
 
     public function fetchHotels()

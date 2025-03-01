@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Agency;
 
 use App\Models\Agency;
@@ -9,18 +10,19 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class FetchAgencyDataService {
+class FetchAgencyDataService
+{
     /**
      * @throws Throwable
      */
     public function fetchAllFlights(): string
     {
+        \Log::info('Start fetchAllFlight');
         $services = AgencyService::where('service_id', 1)->with('service')->get();
         foreach ($services as $service) {
             $vendor = $service->vendor;
             $className = ucfirst($service->service->name_en);
             $vendorClass = "App\\Services\\Agency\\Vendors\\{$vendor}\\{$className}Service";
-            \Log::info($vendorClass);
             if (!class_exists($vendorClass)) {
                 \Log::error("Vendor class {$vendorClass} not found for agency {$service->agency_id}");
                 continue;
@@ -50,7 +52,11 @@ class FetchAgencyDataService {
                             'INF' => 0
                         ]
                     ];
-                    $flights = $vendorInstance->fetchFlights($requestData);
+                    try {
+                        $flights = $vendorInstance->fetchFlights($requestData);
+                    } catch (\Throwable $e) {
+                        \Log::error("❌ Error fetching flights for {$flightDate} from {$origin} to {$destination}: " . $e->getMessage());
+                    }
 
                     if (!empty($flights)) {
                         $this->storeFlightsInDatabase($flights, $service->agency_id);

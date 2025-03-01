@@ -10,26 +10,48 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
 use Throwable;
 
 class FetchFlightsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public int $tries = 3; // جاب ۳ بار تلاش می‌کند
+    public int $backoff = 10; // بین هر تلاش ۱۰ ثانیه صبر می‌کند
+    public int $timeout = 300; // حداکثر زمان اجرای جاب
+
     /**
      * @throws Throwable
      */
     public function handle(FetchAgencyDataService $fetchService): void
     {
-        Log::info("FetchFlightsJob started.");
+        try {
+            \Log::info('Start Job');
+            $fetchService->fetchAllFlights();
+        } catch (\Throwable $e) {
+            \Log::error("❌ FetchFlightsJob Failed: " . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            if ($this->isServerError($e)) {
+                $this->fail($e);
+                return;
+            }
+            throw $e;
+        }
+    }
 
-        // Call the service to fetch flights
-        $fetchService->fetchAllFlights();
-
-        Log::info("FetchFlightsJob completed.");
+    private function isServerError(\Throwable $e): bool
+    {
+        $serverErrors = [
+            'timed out', 'Connection refused', '503 Service Unavailable',
+            '500 Internal Server Error', '502 Bad Gateway', '504 Gateway Timeout'
+        ];
+        foreach ($serverErrors as $error) {
+            if (str_contains($e->getMessage(), $error)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

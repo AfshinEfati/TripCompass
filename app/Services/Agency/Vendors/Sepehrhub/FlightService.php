@@ -51,54 +51,58 @@ class FlightService implements VendorAPI
             'Accept' => 'application/json',
             'Accept-Encoding' => 'gzip, deflate',
         ];
+        try {
+            $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
+            if (!$response->successful()) {
+                return [];
+            }
+            $result = $response->json();
+            $currency = $result['CurrencyCode'] ?? 'IRR';
 
-        $response = Http::withHeaders($headers)->post($this->config['endpoint'], $body);
-        if (!$response->successful()) {
+            $flights = [];
+            foreach ($result['ItineraryList'] ?? [] as $itinerary) {
+                foreach ($itinerary['FlightSegmentList'] ?? [] as $segment) {
+                    $flightClass = $segment['FlightClass'] ?? [];
+                    $adultFare = $flightClass['AdultFare']['TotalFare'] ?? 0;
+                    $availableSeats = $flightClass['AvailableSeat'] ?? 0;
+
+                    $originId = $requestData['origin'];
+                    $destinationId = $requestData['destination'];
+
+                    $airlineId = $this->airlineService->getAirlineIdByCode($segment['Airline']);
+
+                    $flights[] = (new FlightDTO([
+                        'origin_id' => $originId,
+                        'destination_id' => $destinationId,
+                        'departure_time' => $segment['DepartureDateTime'] ?? '0000-00-00 00:00:00',
+                        'arrival_time' => $segment['ArrivalDateTime'] ?? '0000-00-00 00:00:00',
+                        'airline_id' => $airlineId,
+                        'flight_number' => $segment['FlightNumber'] ?? 'N/A',
+                        'agency_id' => $this->config['agency_id'] ?? 1,
+                        'price_details' => [
+                            'adult' => $adultFare,
+                            'child' => $flightClass['ChildFare']['TotalFare'] ?? 0,
+                            'infant' => $flightClass['InfantFare']['TotalFare'] ?? 0,
+                        ],
+                        'capacity' => $availableSeats,
+                        'class' => $flightClass['BookingCode'] ?? 'Y',
+                        'cabin_type' => $flightClass['CabinType'] ?? 'Economy',
+                        'is_charter' => $flightClass['IsCharter'] ?? false,
+                        'baggage' => [
+                            'checked' => ($flightClass['AdultFreeBaggage']['CheckedBaggageTotalWeight'] ?? 0) . 'kg',
+                            'cabin' => ($flightClass['AdultFreeBaggage']['HandBaggageTotalWeight'] ?? 0) . 'kg',
+                        ],
+                        'currency' => $currency,
+                        'call_back' => "https://google.com",
+                    ]))->toArray();
+                }
+            }
+
+            return $flights;
+        } catch (\Throwable $e) {
+            \Log::error("❌ Exception in fetchFlights(): " . $e->getMessage());
             return [];
         }
-        $result = $response->json();
-        $currency = $result['CurrencyCode'] ?? 'IRR';
-
-        $flights = [];
-        foreach ($result['ItineraryList'] ?? [] as $itinerary) {
-            foreach ($itinerary['FlightSegmentList'] ?? [] as $segment) {
-                $flightClass = $segment['FlightClass'] ?? [];
-                $adultFare = $flightClass['AdultFare']['TotalFare'] ?? 0;
-                $availableSeats = $flightClass['AvailableSeat'] ?? 0;
-
-                $originId =$requestData['origin'];
-                $destinationId =$requestData['destination'];
-
-                $airlineId = $this->airlineService->getAirlineIdByCode($segment['Airline']);
-
-                $flights[] = (new FlightDTO([
-                    'origin_id' => $originId,
-                    'destination_id' => $destinationId,
-                    'departure_time' => $segment['DepartureDateTime'] ?? '0000-00-00 00:00:00',
-                    'arrival_time' => $segment['ArrivalDateTime'] ?? '0000-00-00 00:00:00',
-                    'airline_id' => $airlineId,
-                    'flight_number' => $segment['FlightNumber'] ?? 'N/A',
-                    'agency_id' => $this->config['agency_id'] ?? 1,
-                    'price_details' => [
-                        'adult' => $adultFare,
-                        'child' => $flightClass['ChildFare']['TotalFare'] ?? 0,
-                        'infant' => $flightClass['InfantFare']['TotalFare'] ?? 0,
-                    ],
-                    'capacity' => $availableSeats,
-                    'class' => $flightClass['BookingCode'] ?? 'Y',
-                    'cabin_type' => $flightClass['CabinType'] ?? 'Economy',
-                    'is_charter' => $flightClass['IsCharter'] ?? false,
-                    'baggage' => [
-                        'checked' => ($flightClass['AdultFreeBaggage']['CheckedBaggageTotalWeight'] ?? 0) . 'kg',
-                        'cabin' => ($flightClass['AdultFreeBaggage']['HandBaggageTotalWeight'] ?? 0) . 'kg',
-                    ],
-                    'currency' => $currency,
-                    'call_back'=>"",
-                ]))->toArray();
-            }
-        }
-
-        return $flights;
     }
 
     public function fetchHotels()

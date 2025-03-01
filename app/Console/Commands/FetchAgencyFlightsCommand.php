@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\FetchAgencyFlightsJob;
+use App\Jobs\FetchFlightsJob;
 use Illuminate\Console\Command;
 
 class FetchAgencyFlightsCommand extends Command
@@ -27,7 +27,7 @@ class FetchAgencyFlightsCommand extends Command
 
     public function handle(): void
     {
-        dispatch(new FetchAgencyFlightsJob());
+        dispatch(new FetchFlightsJob());
         $this->info('Job FetchAgencyFlightsJob dispatched successfully.');
     }
 }
