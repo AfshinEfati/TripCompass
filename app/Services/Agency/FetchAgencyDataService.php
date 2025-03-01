@@ -2,6 +2,7 @@
 
 namespace App\Services\Agency;
 
+use App\Jobs\FetchFlightForRouteJob;
 use App\Models\Agency;
 use App\Models\AgencyService;
 use App\Models\AgencyRoute;
@@ -23,53 +24,32 @@ class FetchAgencyDataService
             $className = ucfirst($service->service->name_en);
             $vendorClass = "App\\Services\\Agency\\Vendors\\{$vendor}\\{$className}Service";
             if (!class_exists($vendorClass)) {
-                \Log::error("Vendor class {$vendorClass} not found for agency {$service->agency_id}");
+                \Log::error("❌ Vendor class {$vendorClass} not found for agency {$service->agency_id}");
                 continue;
             }
 
             $config = $service->config;
             $config['agency_id'] = $service->agency_id;
             $vendorInstance = new $vendorClass($config);
-
             $routes = AgencyRoute::where('agency_id', $service->agency_id)->get();
-
             foreach ($routes as $route) {
                 $origin = $route->origin_id;
                 $destination = $route->destination_id;
                 $today = Carbon::today();
-
                 for ($i = 0; $i < 7; $i++) {
                     $flightDate = $today->copy()->addDays($i)->toDateString();
-                    $requestData = [
-                        'origin' => $origin,
-                        'destination' => $destination,
-                        'date' => $flightDate,
-                        'flight_type' => 'one_way',
-                        'passengers' => [
-                            'ADT' => 1,
-                            'CHD' => 0,
-                            'INF' => 0
-                        ]
-                    ];
-                    try {
-                        $flights = $vendorInstance->fetchFlights($requestData);
-                    } catch (\Throwable $e) {
-                        \Log::error("❌ Error fetching flights for {$flightDate} from {$origin} to {$destination}: " . $e->getMessage());
-                    }
-
-                    if (!empty($flights)) {
-                        $this->storeFlightsInDatabase($flights, $service->agency_id);
-                    }
+                    FetchFlightForRouteJob::dispatch($vendorInstance, $origin, $destination, $flightDate, $service->agency_id)
+                        ->onQueue('high-priority');
                 }
             }
         }
-        return "All flights fetched for the next week.";
+        return "All flights jobs dispatched for the next week.";
     }
 
     /**
      * @throws Throwable
      */
-    private function storeFlightsInDatabase(array $flights, int $agencyId): void
+    public function storeFlightsInDatabase(array $flights, int $agencyId): void
     {
         if (!Agency::where('id', $agencyId)->exists()) {
             return;
