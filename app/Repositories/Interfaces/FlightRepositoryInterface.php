@@ -8,4 +8,5 @@ interface FlightRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function availability(array $data);
+    public function getSimilarFlights(array $data);
 }
