@@ -17,7 +17,6 @@ use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\Frontend\FlightController;
 use App\Http\Controllers\Api\V1\Frontend\FrontendController;
 use App\Http\Controllers\Api\V1\Frontend\Provider\SignupController;
-use App\Jobs\FetchAgencyFlightsJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
