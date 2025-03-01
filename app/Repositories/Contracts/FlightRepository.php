@@ -8,12 +8,14 @@ use App\Repositories\Interfaces\FlightRepositoryInterface;
 use App\Services\AirportService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
+
 class FlightRepository extends BaseRepository implements FlightRepositoryInterface
 {
-    public function __construct(Flight $model,public AirportService $airportService)
+    public function __construct(Flight $model, public AirportService $airportService)
     {
         parent::__construct($model);
     }
+
     public function availability(array $data): Collection
     {
         $data['origin_id'] = $this->airportService->getByIataCode($data['origin']);
@@ -42,6 +44,7 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
                 ->get();
         });
     }
+
     public function getSimilarFlights(array $data): Collection
     {
         $flight = $this->model->where('flight_key', $data['flight_key'])->firstOrFail();
@@ -57,5 +60,16 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
             ->where('cabin_type', $flight->cabin_type)
             ->orderByRaw('price_details->>"$.adult" ASC')
             ->get();
+    }
+
+    public function redirect(array $validated)
+    {
+        $flight = $this->model->where('flight_key', $validated['flight_key'])->first();
+
+        if (!$flight) {
+            return null;
+        }
+
+        return $flight->call_back;
     }
 }

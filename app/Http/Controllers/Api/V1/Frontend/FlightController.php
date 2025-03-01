@@ -20,11 +20,20 @@ class FlightController extends Controller
     public function availability(AvailabilityRequest $request)
     {
         $flights = $this->service->availability($request->validated());
-       return $this->successResponse(FlightResource::collection($flights),'Flights List');
+        return $this->successResponse(FlightResource::collection($flights), 'Flights List');
     }
+
     public function similarFlights(SimilarFlightsRequest $request)
     {
         $flights = $this->service->getSimilarFlights($request->validated());
         return $this->successResponse(FlightResource::collection($flights), 'Similar Flights List');
+    }
+
+    public function redirect(SimilarFlightsRequest $request)
+    {
+        $link = $this->service->redirect($request->validated());
+        if (!$link)
+            return $this->notFoundResponse([], 'Not Found');
+        return $this->successResponse(['link' => $link], 'Redirect Link');
     }
 }

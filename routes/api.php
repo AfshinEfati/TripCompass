@@ -65,6 +65,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'flight'], function () {
             Route::post('availability', [FlightController::class, 'availability']);
             Route::post('filter', [FlightController::class, 'similarFlights']);
+            Route::post('redirect', [FlightController::class, 'redirect']);
         });
         Route::post('/page', [FrontendController::class, 'getByCanonicalUrl']);
 

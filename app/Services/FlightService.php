@@ -19,4 +19,9 @@ class FlightService
     {
         return $this->repository->getSimilarFlights($data);
     }
+
+    public function redirect(array $validated)
+    {
+        return $this->repository->redirect($validated);
+    }
 }
