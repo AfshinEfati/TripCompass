@@ -46,6 +46,7 @@ class FlightService implements VendorAPI
         ];
 
         $response = Http::withHeaders($headers)->post($this->config['endpoint'], $body);
+        \Log::info("maro response : " . $response->successful());
         if (!$response->successful()) {
             return [];
         }
@@ -65,6 +66,7 @@ class FlightService implements VendorAPI
         $flights = [];
 
         foreach ($vendorFlights as $vendorFlight) {
+            $link = $vendorFlight['link'];
             foreach ($vendorFlight['trip']['legs'] ?? [] as $segment) {
                 $flights[] = (new FlightDTO([
                     'origin_id' => $requestData['origin'],
@@ -87,6 +89,7 @@ class FlightService implements VendorAPI
                         'checked' => ($vendorFlight['trip']['baggage'][0]['weight'] ?? 0) . 'kg',
                         'cabin' => ($vendorFlight['trip']['baggage'][1]['weight'] ?? 0) . 'kg',
                     ],
+                    'call_back' => $link,
                     'currency' => $currency,
                 ]))->toArray();
             }

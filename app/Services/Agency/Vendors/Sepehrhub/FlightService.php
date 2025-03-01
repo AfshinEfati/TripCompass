@@ -93,6 +93,7 @@ class FlightService implements VendorAPI
                         'cabin' => ($flightClass['AdultFreeBaggage']['HandBaggageTotalWeight'] ?? 0) . 'kg',
                     ],
                     'currency' => $currency,
+                    'call_back'=>"",
                 ]))->toArray();
             }
         }

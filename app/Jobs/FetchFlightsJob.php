@@ -22,7 +22,7 @@ class FetchFlightsJob implements ShouldQueue
     /**
      * @throws Throwable
      */
-    public function handle(FetchAgencyDataService $fetchService)
+    public function handle(FetchAgencyDataService $fetchService): void
     {
         Log::info("FetchFlightsJob started.");
 

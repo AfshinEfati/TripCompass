@@ -15,12 +15,12 @@ class FetchAgencyDataService {
      */
     public function fetchAllFlights(): string
     {
-        \Log::info("FetchFlightsJob started.");
         $services = AgencyService::where('service_id', 1)->with('service')->get();
         foreach ($services as $service) {
             $vendor = $service->vendor;
             $className = ucfirst($service->service->name_en);
             $vendorClass = "App\\Services\\Agency\\Vendors\\{$vendor}\\{$className}Service";
+            \Log::info($vendorClass);
             if (!class_exists($vendorClass)) {
                 \Log::error("Vendor class {$vendorClass} not found for agency {$service->agency_id}");
                 continue;
@@ -58,7 +58,6 @@ class FetchAgencyDataService {
                 }
             }
         }
-        \Log::info("FetchFlightsJob completed.");
         return "All flights fetched for the next week.";
     }
 
