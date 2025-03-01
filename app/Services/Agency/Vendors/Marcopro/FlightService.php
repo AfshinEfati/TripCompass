@@ -6,6 +6,7 @@ use App\DTOs\FlightDTO;
 use App\Services\Agency\VendorAPI;
 use App\Services\AirlineService;
 use App\Services\AirportService;
+use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -24,6 +25,7 @@ class FlightService implements VendorAPI
     }
 
     /**
+     * @throws Exception
      */
     public function fetchFlights(array $requestData): array
     {
@@ -37,23 +39,32 @@ class FlightService implements VendorAPI
             "child" => 0,
             "infant" => 0
         ];
-
         $headers = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-
         ];
         try {
+
             $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
+
             if (!$response->successful()) {
-                return [];
+                \Log::error("❌ MarcoPro API Request Failed", [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'headers' => $response->headers()
+                ]);
+
+                throw new Exception("MarcoPro API Request Failed: " . $response->status());
             }
             $result = $response->json();
             $vendorFlights = $result['flights'] ?? [];
+
             return $this->mapMarcoProFlightsToDTO($vendorFlights, $requestData);
         } catch (\Throwable $e) {
-            \Log::error("❌ Exception in Marcopro fetchFlights(): " . $e->getMessage());
-            return [];
+            \Log::error("❌ Exception in MarcoPro fetchFlights(): " . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw new Exception("MarcoPro API Request Exception: " . $e->getMessage());
         }
     }
 

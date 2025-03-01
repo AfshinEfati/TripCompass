@@ -17,7 +17,6 @@ class FetchAgencyDataService
      */
     public function fetchAllFlights(): string
     {
-        \Log::info('Start fetchAllFlight');
         $services = AgencyService::where('service_id', 1)->with('service')->get();
         foreach ($services as $service) {
             $vendor = $service->vendor;

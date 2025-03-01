@@ -6,6 +6,7 @@ use App\DTOs\FlightDTO;
 use App\Services\Agency\VendorAPI;
 use App\Services\AirlineService;
 use App\Services\AirportService;
+use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -25,12 +26,13 @@ class FlightService implements VendorAPI
     }
 
     /**
-     * @throws ConnectionException
+     * @throws ConnectionException|Exception
      */
     public function fetchFlights($requestData): array
     {
         $origin = $this->airportService->show($requestData['origin'])->iata_code;
         $destination = $this->airportService->show($requestData['destination'])->iata_code;
+
         $body = [
             'UserName' => $this->config['username'],
             'Password' => $this->config['password'],
@@ -51,11 +53,20 @@ class FlightService implements VendorAPI
             'Accept' => 'application/json',
             'Accept-Encoding' => 'gzip, deflate',
         ];
+
         try {
             $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
+
             if (!$response->successful()) {
-                return [];
+                \Log::error("❌ Agency API Request Failed", [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'headers' => $response->headers()
+                ]);
+
+                throw new Exception("Agency API Request Failed: " . $response->status());
             }
+
             $result = $response->json();
             $currency = $result['CurrencyCode'] ?? 'IRR';
 
@@ -100,10 +111,14 @@ class FlightService implements VendorAPI
 
             return $flights;
         } catch (\Throwable $e) {
-            \Log::error("❌ Exception in fetchFlights(): " . $e->getMessage());
-            return [];
+            \Log::error("❌ Exception in fetchFlights(): " . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            throw new Exception("Agency API Request Exception: " . $e->getMessage());
         }
     }
+
 
     public function fetchHotels()
     {
