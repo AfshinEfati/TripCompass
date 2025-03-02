@@ -18,7 +18,8 @@ class FetchAgencyDataService
      */
     public function fetchAllFlights(): string
     {
-        $services = AgencyService::where('service_id', 1)->with('service')->get();
+
+        $services = AgencyService::query()->where('is_active', 1)->where('service_id', 1)->with('service')->get();
         foreach ($services as $service) {
             $vendor = $service->vendor;
             $className = ucfirst($service->service->name_en);

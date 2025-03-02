@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\FetchFlightsJob;
+use App\Services\Agency\FetchAgencyDataService;
 use Illuminate\Console\Command;
 
 class FetchAgencyFlightsCommand extends Command
@@ -23,11 +24,13 @@ class FetchAgencyFlightsCommand extends Command
 
     /**
      * Execute the console command.
+     * @throws \Throwable
      */
 
     public function handle(): void
     {
-        dispatch(new FetchFlightsJob());
+        $fetch = new FetchAgencyDataService();
+        $fetch->fetchAllFlights();
         $this->info('Job FetchAgencyFlightsJob dispatched successfully.');
     }
 }

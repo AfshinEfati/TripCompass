@@ -56,7 +56,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_horizon:'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
     ),
 
     /*
@@ -182,15 +182,18 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default'],
+            'queue' => ['default', 'high-priority'], // 👈 حالا هر دو صف پردازش می‌شوند
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
-            'maxProcesses' => 1,
+            'minProcesses' => 10,  // 👈 حداقل تعداد Workers (قبلاً مقدار نداشت)
+            'maxProcesses' => 100, // 👈 حداکثر تعداد Workers
+            'balanceMaxShift' => 5, // 👈 افزایش سریع Workers هنگام افزایش Jobها
+            'balanceCooldown' => 2, // 👈 کاهش سریع Workers بعد از کاهش Jobها
             'maxTime' => 0,
             'maxJobs' => 0,
-            'memory' => 128,
+            'memory' => 256, // 👈 افزایش حافظه برای جلوگیری از کرش
             'tries' => 1,
-            'timeout' => 60,
+            'timeout' => 120, // 👈 افزایش Timeout برای درخواست‌های سنگین
             'nice' => 0,
         ],
     ],
@@ -198,15 +201,17 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
+                'minProcesses' => 10, // 👈 حداقل 10 پردازش همزمان
                 'maxProcesses' => 100,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
+                'balanceMaxShift' => 5,
+                'balanceCooldown' => 2,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 10,
+                'minProcesses' => 2, // 👈 فقط ۲ Worker برای محیط توسعه
+                'maxProcesses' => 100,
             ],
         ],
     ],
