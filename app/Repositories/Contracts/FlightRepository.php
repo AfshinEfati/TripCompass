@@ -71,10 +71,11 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
         if (!$flight) {
             return null;
         }
+        $date =$flight->departure_time->format('Y-m-d');
         $data = [
             'agency_id' => $flight->agency_id,
             'service_id' => 1,
-            'description' => "پرواز {$flight->origin->name_fa} به {$flight->destination->name_fa} تاریخ {$flight->departure_time}",
+            'description' => "Flight from {$flight->origin->iata_code} to {$flight->destination->iata_code} date {$date}",
             'clicked_at' => now(),
         ];
 
