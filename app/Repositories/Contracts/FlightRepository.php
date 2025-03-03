@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Jobs\LogClickJob;
 use App\Models\Flight;
 use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\FlightRepositoryInterface;
@@ -72,13 +73,12 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
         }
         $data = [
             'agency_id' => $flight->agency_id,
-            'service_id' => 1, // فرض می‌کنیم 1 = پرواز
+            'service_id' => 1,
             'description' => "پرواز {$flight->origin->name_fa} به {$flight->destination->name_fa} تاریخ {$flight->departure_time}",
             'clicked_at' => now(),
         ];
-        dispatch(function () use ($data, $flight) {
-            $this->clickLogService->create($data);
-        })->afterResponse();
+
+        LogClickJob::dispatch($data)->afterResponse();
         return $flight->call_back;
     }
 }
