@@ -115,7 +115,7 @@ class FlightService implements VendorAPI
                 'trace' => $e->getTraceAsString()
             ]);
 
-            throw new Exception("Agency API Request Exception: " . $e->getMessage());
+            return [];
         }
     }
 

@@ -6,12 +6,13 @@ use App\Models\Flight;
 use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\FlightRepositoryInterface;
 use App\Services\AirportService;
+use App\Services\ClickLogService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class FlightRepository extends BaseRepository implements FlightRepositoryInterface
 {
-    public function __construct(Flight $model, public AirportService $airportService)
+    public function __construct(Flight $model, public AirportService $airportService, public ClickLogService $clickLogService)
     {
         parent::__construct($model);
     }
@@ -69,7 +70,15 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
         if (!$flight) {
             return null;
         }
-
+        $data = [
+            'agency_id' => $flight->agency_id,
+            'service_id' => 1, // فرض می‌کنیم 1 = پرواز
+            'description' => "پرواز {$flight->origin->name_fa} به {$flight->destination->name_fa} تاریخ {$flight->departure_time}",
+            'clicked_at' => now(),
+        ];
+        dispatch(function () use ($data, $flight) {
+            $this->clickLogService->create($data);
+        })->afterResponse();
         return $flight->call_back;
     }
 }

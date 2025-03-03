@@ -26,7 +26,7 @@ class FlightService implements VendorAPI
     }
 
     /**
-     * @throws ConnectionException|Exception
+     * @throws Exception
      */
     public function fetchFlights($requestData): array
     {
@@ -72,7 +72,7 @@ class FlightService implements VendorAPI
                 return []; // ✅ اگر خالی بود، پردازش ادامه پیدا نمی‌کند
             }
             $flights = [];
-            foreach ($result['ItineraryList'] ?? [] as $itinerary) {
+            foreach ($result['ItineraryList'] as $itinerary) {
                 foreach ($itinerary['FlightSegmentList'] ?? [] as $segment) {
                     $flightClass = $segment['FlightClass'] ?? [];
                     $adultFare = $flightClass['AdultFare']['TotalFare'] ?? 0;
@@ -121,7 +121,7 @@ class FlightService implements VendorAPI
                 'trace' => $e->getTraceAsString()
             ]);
 
-            throw new Exception("Agency API Request Exception: " . $e->getMessage());
+            return [];
         }
     }
 

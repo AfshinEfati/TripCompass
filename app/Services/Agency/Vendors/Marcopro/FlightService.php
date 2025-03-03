@@ -64,7 +64,7 @@ class FlightService implements VendorAPI
             \Log::error("❌ Exception in MarcoPro fetchFlights(): " . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            throw new Exception("MarcoPro API Request Exception: " . $e->getMessage());
+            return [];
         }
     }
 
