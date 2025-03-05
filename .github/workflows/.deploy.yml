@@ -24,7 +24,7 @@ jobs:
           SSHPASS: ${{ secrets.SSH_PASSWORD }}
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no root@79.127.70.82 <<EOF
-            cd /var/www/rundev.ir/backend
+            cd /var/www/sitrip.com/backend
             git stash
             git pull origin main
             php artisan migrate
