@@ -31,4 +31,9 @@ class AgencyService
         return $this->repository->destroy($agency->id);
     }
 
+    public function getByUserId(int|string|null $id)
+    {
+        return $this->repository->getByUserId($id);
+    }
+
 }

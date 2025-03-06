@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Frontend\FlightController;
 use App\Http\Controllers\Api\V1\Frontend\FrontendController;
 use App\Http\Controllers\Api\V1\Frontend\Provider\SignupController;
@@ -69,19 +70,5 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/page', [FrontendController::class, 'getByCanonicalUrl']);
 
     });
-    Route::group(['prefix' => 'panel',/* 'middleware' => 'auth:provider'*/], function () {
-        Route::group(['prefix' => 'provider'], function () {
-            Route::post('/', [SignupController::class, 'register']);
-            Route::group(['prefix' => 'email'], function () {
-                Route::post('/verify', [SignupController::class, 'verifyEmail']);
-                Route::get('/verify/{id}/{hash}', [SignupController::class, 'verifyEmailHash']);
-                Route::post('/resend', [SignupController::class, 'resendEmail']);
-            });
-            Route::post('/upload-documents', [SignupController::class, 'uploadDocuments']);
-            Route::group(['prefix' => 'address'], function () {
-                Route::post('/create', [SignupController::class, 'addAddress']);
-            });
-            Route::post('/request-approval', [SignupController::class, 'requestApproval']);
-        });
-    });
+    require_once 'panel.php';
 });
