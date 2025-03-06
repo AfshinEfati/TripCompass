@@ -10,6 +10,7 @@ use App\Repositories\Contracts\AnchorRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ClickLogRepository;
 use App\Repositories\Contracts\ContentRepository;
+use App\Repositories\Contracts\ContractRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\FaqRepository;
 use App\Repositories\Contracts\FlightRepository;
@@ -28,6 +29,7 @@ use App\Repositories\Interfaces\AnchorRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ClickLogRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
+use App\Repositories\Interfaces\ContractRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
 use App\Repositories\Interfaces\FlightRepositoryInterface;
@@ -47,6 +49,7 @@ use App\Services\AnchorService;
 use App\Services\CityService;
 use App\Services\ClickLogService;
 use App\Services\ContentService;
+use App\Services\ContractService;
 use App\Services\CountryService;
 use App\Services\FaqService;
 use App\Services\FlightService;
@@ -154,7 +157,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ClickLogService::class, function ($app) {
             return new ClickLogService($app->make(ClickLogRepositoryInterface::class));
         });
-
+        // Bind the ContractRepositoryInterface with the ContractRepository and ContractService
+        $this->app->bind(ContractRepositoryInterface::class, ContractRepository::class);
+        $this->app->bind(ContractService::class, function ($app) {
+            return new ContractService($app->make(ContractRepositoryInterface::class));
+        });
     }
 
     /**
