@@ -28,6 +28,14 @@ trait StatusTrait
             'message' => $message
         ]);
     }
+    private function unauthorizedResponse(array $array, string $string): JsonResponse
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $string,
+            'data' => $array
+        ]);
+    }
     private function notFoundResponse($data, $message): JsonResponse
     {
         return response()->json([
