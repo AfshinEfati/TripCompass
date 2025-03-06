@@ -11,4 +11,5 @@ interface ContractRepositoryInterface extends BaseRepositoryInterface
     public function getByUserId(int $userId): Contract;
     public function createByAgency(array $data);
 
+
 }
