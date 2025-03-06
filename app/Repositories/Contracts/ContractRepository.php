@@ -40,6 +40,10 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
             if (!$agency) {
                 throw new Exception('this user is not owner of this agency');
             }
+            $contract = $this->model->where('user_id', $data->user_id)->where('agency_id', $agency->id)->first();
+            if ($contract) {
+                throw new Exception('this user already has a contract with this agency');
+            }
             $contract = $this->model->create((array)$data);
             if (!empty($data->files)) {
                 foreach ($data->files as $file) {
