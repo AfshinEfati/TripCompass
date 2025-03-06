@@ -11,7 +11,7 @@ class ContractService
     {
     }
 
-    public function createByAgency(mixed $validated): Contract
+    public function createByAgency(mixed $validated)
     {
         return $this->repository->createByAgency($validated);
     }

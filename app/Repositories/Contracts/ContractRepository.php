@@ -7,7 +7,9 @@ use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\ContractRepositoryInterface;
 use App\Services\AgencyService;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Throwable;
+
 
 class ContractRepository extends BaseRepository implements ContractRepositoryInterface
 {
@@ -27,26 +29,34 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
     }
 
     /**
-     * @throws Exception
+     * @throws Exception|Throwable
      */
-    public function createByAgency(array $data): Contract
+    public function createByAgency(array $data)
     {
-        $data = (object)$data;
-        $agency = $this->agencyService->getByUserId($data->user_id);
-        if (!$agency) {
-            throw new Exception('this user is not owner of this agency');
-        }
-        $contract = $this->model->create((array)$data);
-        if ($data->hasFile('files')) {
-            foreach ($data->files as $file) {
-                $contract->files()->create([
-                    'file_type' => $file->file_type,
-                    'file_path' => $file->store('contracts'),
-                    'file_name' => $file->getClientOriginalName(),
-                    'file_size' => $file->getSize(),
-                    'file_mime_type' => $file->getMimeType(),
-                ]);
+        DB::beginTransaction();
+        try {
+            $data = (object)$data;
+            $agency = $this->agencyService->getByUserId($data->user_id);
+            if (!$agency) {
+                throw new Exception('this user is not owner of this agency');
             }
+            $contract = $this->model->create((array)$data);
+            if (!empty($data->files)) {
+                foreach ($data->files as $file) {
+                    $file= (object)$file;
+                    $contract->files()->create([
+                        'file_type' => $file->file_type,
+                        'file_path' => $file->file->store('contracts'),
+                        'file_name' => $file->file->getClientOriginalName(),
+                        'file_size' => $file->file->getSize(),
+                        'file_mime_type' => $file->file->getMimeType(),
+                    ]);
+                }
+            }
+            DB::commit();
+        }catch (Exception $e){
+            DB::rollBack();
+            throw $e;
         }
     }
 }
