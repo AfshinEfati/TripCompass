@@ -2,11 +2,13 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Exceptions\CustomErrorException;
 use App\Models\Contract;
 use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\ContractRepositoryInterface;
 use App\Services\AgencyService;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -38,11 +40,11 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
             $data = (object)$data;
             $agency = $this->agencyService->getByUserId($data->user_id);
             if (!$agency) {
-                throw new Exception('this user is not owner of this agency');
+                throw new CustomErrorException('this user is not owner of this agency');
             }
-            $contract = $this->model->where('user_id', $data->user_id)->where('agency_id', $agency->id)->first();
+            $contract = $this->model->where('user_id', $data->user_id)->where('agency_id', $data->agency_id)->first();
             if ($contract) {
-                throw new Exception('this user already has a contract with this agency');
+                throw new CustomErrorException('this user already has a contract with this agency');
             }
             $contract = $this->model->create((array)$data);
             if (!empty($data->files)) {
@@ -58,6 +60,7 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
                 }
             }
             DB::commit();
+            return $contract;
         }catch (Exception $e){
             DB::rollBack();
             throw $e;
