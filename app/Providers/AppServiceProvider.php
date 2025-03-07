@@ -7,6 +7,7 @@ use App\Repositories\Contracts\AgencyServiceRepository;
 use App\Repositories\Contracts\AirlineRepository;
 use App\Repositories\Contracts\AirportRepository;
 use App\Repositories\Contracts\AnchorRepository;
+use App\Repositories\Contracts\BankRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ClickLogRepository;
 use App\Repositories\Contracts\ContentRepository;
@@ -26,6 +27,7 @@ use App\Repositories\Interfaces\AgencyServiceRepositoryInterface;
 use App\Repositories\Interfaces\AirlineRepositoryInterface;
 use App\Repositories\Interfaces\AirportRepositoryInterface;
 use App\Repositories\Interfaces\AnchorRepositoryInterface;
+use App\Repositories\Interfaces\BankRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ClickLogRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
@@ -46,6 +48,7 @@ use App\Services\AgencyServiceService;
 use App\Services\AirlineService;
 use App\Services\AirportService;
 use App\Services\AnchorService;
+use App\Services\BankService;
 use App\Services\CityService;
 use App\Services\ClickLogService;
 use App\Services\ContentService;
@@ -161,6 +164,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContractRepositoryInterface::class, ContractRepository::class);
         $this->app->bind(ContractService::class, function ($app) {
             return new ContractService($app->make(ContractRepositoryInterface::class));
+        });
+        // Bind the BankRepositoryInterface with the BankRepository and BankService
+        $this->app->bind(BankRepositoryInterface::class, BankRepository::class);
+        $this->app->bind(BankService::class, function ($app) {
+            return new BankService($app->make(BankRepositoryInterface::class));
         });
     }
 
