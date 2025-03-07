@@ -31,7 +31,7 @@ class AgencyController extends Controller
     public function store(CreateAgencyRequest $request)
     {
         $agency = $this->service->store($request->validated());
-        return response()->json(new AgencyResource($agency), 201);
+        return $this->successResponse(AgencyResource::make($agency), 'Agency successfully created');
     }
 
     public function show(Agency $agency)

@@ -95,7 +95,7 @@ class UserController extends Controller
             'token' => 'required|string|max:6',
         ]);
 
-        $user = User::where('mobile', $request->mobile)->first();
+        $user = User::with('agencies')->where('mobile', $request->mobile)->first();
 
         if (!$user || $user->token !== $request->token) {
             return response()->json(
@@ -121,6 +121,7 @@ class UserController extends Controller
     public function getUser(Request $request)
     {
         $user = auth()->user();
+        $user =$user->with('agencies')->find($user->id);
         return response()->json([
             'success' => true,
             'message' => 'درخواست با موفقیت انجام شد',

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Agency extends Model
 {
@@ -27,6 +28,10 @@ class Agency extends Model
     public function services(): HasMany
     {
         return $this->hasMany(AgencyService::class);
+    }
+    public function contract(): HasOne
+    {
+        return $this->hasOne(Contract::class);
     }
 
 }

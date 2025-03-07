@@ -10,6 +10,7 @@ class CreateAgencyRequest extends FormRequest
     {
         $this->merge([
             'user_id' => auth()->id(),
+            'status'=>false
         ]);
     }
 

@@ -48,7 +48,7 @@ class AgencySeeder extends Seeder
                 'endpoint' => 'https://charter.alibaba.ir/api/Partners/Flight/Availability/V16/SearchByRouteAndDate',
                 'username_api' => 'public',
                 'password_api' => 'public',
-                'is_active' => 1,
+                'is_active' => 0,
             ], [
                 'name' => 'Sepidparvaz',
                 'email' => 'sepidparvaz@example.com',

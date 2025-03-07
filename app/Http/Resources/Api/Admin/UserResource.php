@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'is_admin' => $this->getStatus($this->is_admin),
             'is_active' => $this->getStatus($this->is_active),
             'balance' => $this->balance,
-            'agencies'=>$this->relationLoaded('agencies') ? /*AgencyResource::collection(*/$this->agencies/*)*/ : [],
+            'agencies'=>$this->relationLoaded('agencies') ? AgencyResource::collection($this->agencies) : [],
             'token' => $this->additional['token'] ?? null,
         ];
     }
