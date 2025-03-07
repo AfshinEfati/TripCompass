@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\Panel;
 
 use App\Http\Resources\Api\Admin\AgencyResource;
 use App\Http\Resources\Api\Admin\UserResource;
+use App\Http\Resources\Api\BankResource;
 use App\Models\Contract;
 use App\Traits\StatusTrait;
 use Illuminate\Http\Request;
@@ -29,12 +30,12 @@ class ContractResource extends JsonResource
             'contact_email' => $this->contact_email,
             'bank_account' => $this->bank_account,
             'bank_shaba' => $this->bank_shaba,
-            'bank_name' => $this->bank_name,
             'status' => $this->status($this->status),
             'created_at' => $this->formatDates($this->created_at),
             'updated_at' => $this->formatDates($this->updated_at),
             'agency' => new AgencyResource($this->whenLoaded('agency')),
             'user' => new UserResource($this->whenLoaded('user')),
+            'bank' => new BankResource($this->bank),
         ];
     }
 

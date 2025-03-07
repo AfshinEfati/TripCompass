@@ -29,7 +29,7 @@ class CreateContractRequest extends FormRequest
             'contact_email' => 'required|email',
             'bank_account' => 'nullable|string',
             'bank_shaba' => 'nullable|string|size:24',
-            'bank_name' => 'nullable|string',
+            'bank_id' => 'required|exists:banks,id',
             'files' => 'required|array',
             'files.*.file_type' => 'required|string',
             'files.*.file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',

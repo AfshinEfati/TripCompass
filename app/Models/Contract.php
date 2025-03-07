@@ -23,7 +23,7 @@ class Contract extends Model
         'contact_email',
         'bank_account',
         'bank_shaba',
-        'bank_name',
+        'bank_id',
         'status',
     ];
     protected $dateFormat = 'Y-m-d H:i:s';
@@ -31,16 +31,24 @@ class Contract extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
     public function agency(): BelongsTo
     {
         return $this->belongsTo(Agency::class);
     }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
     public function files(): HasMany
     {
         return $this->hasMany(ContractFile::class);
+    }
+
+    public function bank(): BelongsTo
+    {
+        return $this->belongsTo(Bank::class);
     }
 }
