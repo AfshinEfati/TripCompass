@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySeeder::class);
         $this->call(StateSeeder::class);
         $this->call(CitySeeder::class);
+        $this->call(BankSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(AirportSeeder::class);
         $this->call(AirlineSeeder::class);
