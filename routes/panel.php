@@ -9,5 +9,6 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth:sanctum'], function () 
     Route::apiResource('agencies', AgencyController::class);
     Route::apiResource('{agency}/services', AgencyServiceController::class);
     Route::apiResource('contracts', ContractController::class);
+    Route::get('bank-list', [ContractController::class, 'bankList']);
 
 });

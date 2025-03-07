@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->string('contact_email');
             $table->string('bank_account')->nullable();
             $table->string('bank_shaba')->nullable();
-            $table->foreignId('bank_id')->constrained('banks')->onDelete('set null');
+            $table->foreignId('bank_id')->constrained('banks')->onDelete('cascade');
             $table->enum('status', ['pending', 'reviewing', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
