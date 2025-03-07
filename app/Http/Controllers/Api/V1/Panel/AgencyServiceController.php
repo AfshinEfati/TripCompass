@@ -43,13 +43,11 @@ class AgencyServiceController extends Controller
 
     public function update(Agency $agency,AgencyService $service , UpdateAgencyServiceRequest $request)
     {
-        $agencyService =  $this->service->updateByAgencyId($agency,$service,$request->validated());
-        return $this->successResponse(new AgencyServiceResource($agencyService), 'Service Updated Successfully');
+       return $this->unauthorizedResponse([], 'You are not authorized to update this service');
     }
 
     public function destroy(Agency $agency,AgencyService $service)
     {
-        $this->service->destroy($agency,$service);
-        return $this->successResponse([], 'Service Deleted Successfully');
+        return $this->unauthorizedResponse([], 'You are not authorized to delete this service');
     }
 }
