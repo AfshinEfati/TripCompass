@@ -2,39 +2,22 @@
 
 namespace App\Models;
 
-use App\Enums\Payment\PaymentStatus;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Payment extends Model
 {
     protected $fillable = [
-        'provider_id',
-        'bank_id',
-        'authority',
-        'reference',
+        'user_id',
+        'gateway_id',
+        'amount',
         'status',
-        'amount'
+        'transaction_id',
+        'failure_reason',
     ];
 
-    protected $casts = [
-        'status' => PaymentStatus::class, // Automatically cast status to PaymentStatus enum
-    ];
-
-    public function provider(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Provider::class);
-    }
-
-    public function bank(): BelongsTo
-    {
-        return $this->belongsTo(Bank::class);
-    }
-
-    public function transaction(): HasOne
-    {
-        return $this->hasOne(Transaction::class, 'payment_id');
+        return $this->belongsTo(User::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Admin\AirportResource;
 use App\Http\Resources\Api\Admin\SeoResource;
+use App\Http\Resources\Api\Frontend\SitemapResource;
 use App\Services\AirportService;
 use App\Services\SeoService;
 use App\Traits\StatusTrait;
@@ -34,6 +35,11 @@ class FrontendController extends Controller
     {
         $airports = $this->airportService->getAirports($request->input('query'));
         return $this->successResponse(AirportResource::collection($airports), 'Airports found');
+    }
+    public function sitemap()
+    {
+        $sitemap = $this->seoService->getSitemap();
+        return $this->successResponse(SitemapResource::collection($sitemap), 'Sitemap found');
     }
 
 }

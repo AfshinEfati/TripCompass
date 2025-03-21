@@ -11,4 +11,6 @@ interface SeoRepositoryInterface extends BaseRepositoryInterface
 
     public function getByCanonical(string $canonicalUrl);
 
+    public function getSitemap();
+
 }

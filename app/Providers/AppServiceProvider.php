@@ -16,6 +16,7 @@ use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\FaqRepository;
 use App\Repositories\Contracts\FlightRepository;
 use App\Repositories\Contracts\MediaRepository;
+use App\Repositories\Contracts\PaymentRepository;
 use App\Repositories\Contracts\ProviderRepository;
 use App\Repositories\Contracts\SeoRelationRepository;
 use App\Repositories\Contracts\SeoRepository;
@@ -36,6 +37,7 @@ use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
 use App\Repositories\Interfaces\FlightRepositoryInterface;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
+use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use App\Repositories\Interfaces\SeoRelationRepositoryInterface;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
@@ -57,6 +59,7 @@ use App\Services\CountryService;
 use App\Services\FaqService;
 use App\Services\FlightService;
 use App\Services\MediaService;
+use App\Services\PaymentService;
 use App\Services\ProviderService;
 use App\Services\SeoRelationService;
 use App\Services\SeoService;
@@ -169,6 +172,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BankRepositoryInterface::class, BankRepository::class);
         $this->app->bind(BankService::class, function ($app) {
             return new BankService($app->make(BankRepositoryInterface::class));
+        });
+        // Bind the PaymentRepositoryInterface with the PaymentRepository and PaymentService
+        $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->bind(PaymentService::class, function ($app) {
+            return new PaymentService($app->make(PaymentRepositoryInterface::class));
         });
     }
 

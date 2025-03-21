@@ -14,10 +14,8 @@ use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
-use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Frontend\FlightController;
 use App\Http\Controllers\Api\V1\Frontend\FrontendController;
-use App\Http\Controllers\Api\V1\Frontend\Provider\SignupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +66,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('redirect', [FlightController::class, 'redirect']);
         });
         Route::post('/page', [FrontendController::class, 'getByCanonicalUrl']);
+        Route::get('/sitemap', [FrontendController::class, 'sitemap']);
 
     });
     require_once 'panel.php';

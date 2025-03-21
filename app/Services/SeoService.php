@@ -38,5 +38,10 @@ class SeoService
         return $this->repository->getByCanonical($canonicalUrl);
     }
 
+    public function getSitemap()
+    {
+        return $this->repository->getSitemap();
+    }
+
 
 }

@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 use App\Models\Seo;
 use App\Repositories\BaseRepository;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class SeoRepository extends BaseRepository implements SeoRepositoryInterface
@@ -65,4 +66,14 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
     }
 
 
+    public function getSitemap(): Collection
+    {
+        return $this->model->query()->with([
+            'content',
+            'seoRelation',
+            'media',
+            'anchors',
+            'faqs'
+        ])->where('robots',true)->get();
+    }
 }
