@@ -2,8 +2,6 @@
 
 namespace App\Services\Payment;
 
-use App\Models\Gateway;
-use App\Repositories\Interfaces\GatewayRepositoryInterface;
 use App\Services\GatewayService;
 use App\Traits\PaymentManagement;
 use App\Models\Payment as PaymentModel;
@@ -26,6 +24,7 @@ class Payment
         $driver = ucfirst($gateway1->driver);
         $class = 'App\Services\Payment\\' . $driver . '\Facade';
         $gateway = new $class();
+
         return $gateway->startPay($payment, $callback);
     }
 

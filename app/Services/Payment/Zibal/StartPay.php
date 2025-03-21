@@ -4,10 +4,10 @@ namespace App\Services\Payment\Zibal;
 
 use App\Models\Gateway;
 use App\Models\Payment as PaymentModel;
-use App\Repositories\Services\GatewayService;
 use Exception;
 use Shetabit\Multipay\Invoice;
-use Shetabit\Payment\Facade\Payment;
+use Shetabit\Multipay\Payment;
+use Shetabit\Multipay\RedirectionForm;
 
 class StartPay
 {
@@ -18,7 +18,7 @@ class StartPay
     public mixed $bank_id = 1;
     public string $gateway_name = 'زیبال';
     public Gateway $gateway;
-    public $response;
+    public mixed $response;
 
     public function __construct(
         PaymentModel $payment,
@@ -27,19 +27,17 @@ class StartPay
     {
         $this->gateway = $payment->gateway;
         try {
-            $response = Payment::via('zibal')
+            /** @var RedirectionForm $response */
+            $response = \Shetabit\Payment\Facade\Payment::via('zibal')
                 ->config([
                     'merchantId' => $this->gateway->config['merchant'],
                     'callbackUrl' => $callback
                 ])->callbackUrl($callback)->purchase(
                     (new Invoice)->amount($payment->amount)->detail(['mobile' => '0' . $payment->user->mobile]),
                     function ($driver, $transactionId) {
-
                     }
                 )->pay()->toJson();
-
             $response = json_decode($response);
-
             $action = "{$response->action}";
             $refId = basename($action);
             $this->link = $action;

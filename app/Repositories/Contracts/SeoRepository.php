@@ -49,12 +49,14 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
             return $this->model->query()->where('canonical', 'LIKE', '/')->with([
                 'content',
                 'seoRelation',
+                'seoRelation.model',
+                'seoRelation.model.city',
                 'media',
                 'faqs',
                 'anchors'
             ])->first();
         }
-        return $this->model->query()->where([
+       return $this->model->query()->where([
             'canonical' => $canonicalUrl
         ])->with([
             'content',
@@ -63,6 +65,7 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
             'faqs',
             'anchors'
         ])->first();
+
     }
 
 

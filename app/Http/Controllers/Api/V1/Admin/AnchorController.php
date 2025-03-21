@@ -41,9 +41,8 @@ class AnchorController extends Controller
         return $this->successResponse(new AnchorResource($anchor), 'Anchor updated successfully');
     }
 
-    public function destroyAnchor(int $anchor_id): JsonResponse
+    public function destroyAnchor(int $id, int $anchor_id): JsonResponse
     {
-
         $this->service->destroy($anchor_id);
         return $this->successResponse([], 'Anchor deleted successfully');
     }

@@ -347,7 +347,7 @@ trait PaymentManagement
     public function prepareForPay(int $id): array
     {
         return [
-            'verifyUrl' => "https://parsitrip.com/api/v1/payment/verify/$id"
+            'verifyUrl' => "https://panel.parsitrip.com/api/v1/payment/verify/$id"
         ];
 
     }

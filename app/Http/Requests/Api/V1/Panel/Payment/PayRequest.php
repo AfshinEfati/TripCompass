@@ -18,7 +18,7 @@ class PayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required|numeric|min:100000',
+            'amount' => 'required|numeric|min:10000',
             'user_id' => 'required|exists:users,id',
         ];
     }

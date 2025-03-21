@@ -15,6 +15,7 @@ use App\Repositories\Contracts\ContractRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\FaqRepository;
 use App\Repositories\Contracts\FlightRepository;
+use App\Repositories\Contracts\GatewayRepository;
 use App\Repositories\Contracts\MediaRepository;
 use App\Repositories\Contracts\PaymentRepository;
 use App\Repositories\Contracts\ProviderRepository;
@@ -36,6 +37,7 @@ use App\Repositories\Interfaces\ContractRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
 use App\Repositories\Interfaces\FlightRepositoryInterface;
+use App\Repositories\Interfaces\GatewayRepositoryInterface;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
@@ -58,6 +60,7 @@ use App\Services\ContractService;
 use App\Services\CountryService;
 use App\Services\FaqService;
 use App\Services\FlightService;
+use App\Services\GatewayService;
 use App\Services\MediaService;
 use App\Services\PaymentService;
 use App\Services\ProviderService;
@@ -177,6 +180,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
         $this->app->bind(PaymentService::class, function ($app) {
             return new PaymentService($app->make(PaymentRepositoryInterface::class));
+        });
+        // Bind The GatewayRepositoryInterface with the GatewayRepository and GatewayService
+        $this->app->bind(GatewayRepositoryInterface::class, GatewayRepository::class);
+        $this->app->bind(GatewayService::class, function ($app) {
+            return new GatewayService($app->make(GatewayRepositoryInterface::class));
         });
     }
 

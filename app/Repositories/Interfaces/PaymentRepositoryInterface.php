@@ -4,6 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Payment;
 use App\Repositories\BaseRepositoryInterface;
+use Illuminate\Http\Request;
 
 interface PaymentRepositoryInterface extends BaseRepositoryInterface
 {
@@ -12,4 +13,6 @@ interface PaymentRepositoryInterface extends BaseRepositoryInterface
     public function updateStatus(Payment $payment, string $status, ?string $transactionId = null, ?string $failureReason = null): bool;
 
     public function pay(mixed $validated);
+
+    public function verify(Request $request);
 }

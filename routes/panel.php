@@ -14,6 +14,9 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth:sanctum'], function () 
     Route::apiResource('contracts', ContractController::class);
     Route::get('bank-list', [ContractController::class, 'bankList']);
     Route::get('service-list', [ContractController::class, 'serviceList']);
-    Route::post('payment/pay', [PaymentController::class, 'pay']);
+    Route::group(['prefix' => 'payment'], function () {
+        Route::post('payment/pay', [PaymentController::class, 'pay']);
+        Route::post('/payment/verify', [PaymentController::class, 'verify']);
+    });
 
 });

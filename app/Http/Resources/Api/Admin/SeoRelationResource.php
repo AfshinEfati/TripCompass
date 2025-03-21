@@ -18,7 +18,10 @@ class SeoRelationResource extends JsonResource
             $model_id = $this->model_id;
             $modelType = $this->model_type;
             $modelInstance = app($modelType);
-            $modelId = $modelInstance->find($this->model_id);
+            if ($model === 'Airport')
+                $modelId  =  $modelInstance->with('city')->find($this->model_id);
+            else
+                $modelId = $modelInstance->find($this->model_id);
             $modelResource = 'App\Http\Resources\Api\Admin\\' . $model . 'Resource';
             if (class_exists($modelResource)) {
                 $resource = $modelResource::make($modelId);

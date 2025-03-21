@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
+use Illuminate\Http\Request;
 
 class PaymentService
 {
-    public function __construct(public PaymentRepositoryInterface $repository,public GatewayService $gatewayService)
+    public function __construct(public PaymentRepositoryInterface $repository)
     {
     }
 
@@ -33,5 +34,10 @@ class PaymentService
     public function pay(mixed $validated)
     {
         return $this->repository->pay($validated);
+    }
+
+    public function verify(Request  $request)
+    {
+        return $this->repository->verify($request);
     }
 }
