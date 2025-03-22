@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Panel\AgencyController;
 use App\Http\Controllers\Api\V1\Panel\AgencyServiceController;
 use App\Http\Controllers\Api\V1\Panel\ContractController;
 use App\Http\Controllers\Api\V1\Panel\PaymentController;
+use App\Http\Controllers\Api\V1\Panel\TransactionController;
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth:sanctum'], function () {
     Route::apiResource('agencies', AgencyController::class);
@@ -15,8 +16,11 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth:sanctum'], function () 
     Route::get('bank-list', [ContractController::class, 'bankList']);
     Route::get('service-list', [ContractController::class, 'serviceList']);
     Route::group(['prefix' => 'payment'], function () {
-        Route::post('payment/pay', [PaymentController::class, 'pay']);
-        Route::post('/payment/verify', [PaymentController::class, 'verify']);
+        Route::post('pay', [PaymentController::class, 'pay']);
+        Route::post('verify', [PaymentController::class, 'verify'])->withoutMiddleware(['auth:sanctum']);
+        Route::get('list', [PaymentController::class, 'index']);
+        Route::get('{payment}', [PaymentController::class, 'show']);
     });
+    Route::apiResource('transaction', TransactionController::class);
 
 });

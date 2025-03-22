@@ -348,6 +348,7 @@ trait PaymentManagement
     {
         return [
             'verifyUrl' => "https://panel.parsitrip.com/api/v1/payment/verify/$id"
+//            'verifyUrl' => "http://backend.parsitrip.com/api/v1/payment/verify/$id"
         ];
 
     }

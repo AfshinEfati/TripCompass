@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\AgencyRepository;
 use App\Repositories\Contracts\AgencyServiceRepository;
+use App\Repositories\Contracts\AgencyWalletRepository;
 use App\Repositories\Contracts\AirlineRepository;
 use App\Repositories\Contracts\AirportRepository;
 use App\Repositories\Contracts\AnchorRepository;
 use App\Repositories\Contracts\BankRepository;
+use App\Repositories\Contracts\CabinRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ClickLogRepository;
 use App\Repositories\Contracts\ContentRepository;
@@ -23,13 +25,16 @@ use App\Repositories\Contracts\SeoRelationRepository;
 use App\Repositories\Contracts\SeoRepository;
 use App\Repositories\Contracts\ServiceRepository;
 use App\Repositories\Contracts\StateRepository;
+use App\Repositories\Contracts\TransactionRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\Interfaces\AgencyRepositoryInterface;
 use App\Repositories\Interfaces\AgencyServiceRepositoryInterface;
+use App\Repositories\Interfaces\AgencyWalletRepositoryInterface;
 use App\Repositories\Interfaces\AirlineRepositoryInterface;
 use App\Repositories\Interfaces\AirportRepositoryInterface;
 use App\Repositories\Interfaces\AnchorRepositoryInterface;
 use App\Repositories\Interfaces\BankRepositoryInterface;
+use App\Repositories\Interfaces\CabinRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ClickLogRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
@@ -45,14 +50,17 @@ use App\Repositories\Interfaces\SeoRelationRepositoryInterface;
 use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\ServiceRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
+use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Scopes\OrderByIdDescScope;
 use App\Services\AgencyService;
 use App\Services\AgencyServiceService;
+use App\Services\AgencyWalletService;
 use App\Services\AirlineService;
 use App\Services\AirportService;
 use App\Services\AnchorService;
 use App\Services\BankService;
+use App\Services\CabinService;
 use App\Services\CityService;
 use App\Services\ClickLogService;
 use App\Services\ContentService;
@@ -68,6 +76,7 @@ use App\Services\SeoRelationService;
 use App\Services\SeoService;
 use App\Services\ServiceService;
 use App\Services\StateService;
+use App\Services\TransactionService;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -185,6 +194,21 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GatewayRepositoryInterface::class, GatewayRepository::class);
         $this->app->bind(GatewayService::class, function ($app) {
             return new GatewayService($app->make(GatewayRepositoryInterface::class));
+        });
+        // Bind the TransactionRepositoryInterface with the TransactionRepository and TransactionService
+        $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
+        $this->app->bind(TransactionService::class, function ($app) {
+            return new TransactionService($app->make(TransactionRepositoryInterface::class));
+        });
+        // Bind the AgencyWalletRepositoryInterface with the AgencyWalletRepository and AgencyWalletService
+        $this->app->bind(AgencyWalletRepositoryInterface::class, AgencyWalletRepository::class);
+        $this->app->bind(AgencyWalletService::class, function ($app) {
+            return new AgencyWalletService($app->make(AgencyWalletRepositoryInterface::class));
+        });
+        // Bind the CabinRepositoryInterface with the CabinRepository and CabinService
+        $this->app->bind(CabinRepositoryInterface::class, CabinRepository::class);
+        $this->app->bind(CabinService::class, function ($app) {
+            return new CabinService($app->make(CabinRepositoryInterface::class));
         });
     }
 

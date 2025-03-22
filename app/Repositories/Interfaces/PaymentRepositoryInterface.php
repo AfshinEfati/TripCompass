@@ -15,4 +15,6 @@ interface PaymentRepositoryInterface extends BaseRepositoryInterface
     public function pay(mixed $validated);
 
     public function verify(Request $request);
+
+    public function getByUserId();
 }

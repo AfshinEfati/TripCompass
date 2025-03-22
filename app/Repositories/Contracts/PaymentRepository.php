@@ -10,6 +10,7 @@ use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\BaseRepository;
 use App\Services\GatewayService;
 use App\Services\PaymentService;
+use App\Services\TransactionService;
 use App\Traits\PaymentManagement;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\DB;
 {
     use PaymentManagement;
 
-    public function __construct(Payment $model, public GatewayService $gatewayService)
+    public function __construct(Payment $model, public GatewayService $gatewayService, public TransactionService $transactionService)
     {
         parent::__construct($model);
     }
@@ -69,12 +70,19 @@ use Illuminate\Support\Facades\DB;
         if ($this->payment->status == 'pending') {
             $payVerify = $this->processBankVerification();
             if ($payVerify['verified']) {
-                $this->updateStatus($this->payment, 'success', null, null);
+                $this->updateStatus($this->payment, 'success', $this->payment->transaction_id, null);
                 User::find($this->payment->user_id)->update([
                     'balance' => DB::raw('balance + ' . $this->payment->amount)
                 ]);
-            }else{
-                $this->updateStatus($this->payment, 'failed', null, $payVerify['message']);
+                $this->transactionService->store([
+                    'user_id' => $this->payment->user_id,
+                    'payment_id' => $this->payment->id,
+                    'amount' => $this->payment->amount,
+                    'type' => 'deposit',
+                    'description' => 'پرداخت به شماره تراکنش ' . $this->payment->transaction_id
+                ]);
+            } else {
+                $this->updateStatus($this->payment, 'failed', $this->payment->transaction_id, $payVerify['message']);
             }
         }
         return $this->payment->refresh();
@@ -107,4 +115,8 @@ use Illuminate\Support\Facades\DB;
         return ['verified' => false, 'message' => $this->status['provider_response']];
     }
 
+    public function getByUserId()
+    {
+        return $this->model->where('user_id', auth()->id())->get();
+    }
 }

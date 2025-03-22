@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\AgencyServiceController;
 use App\Http\Controllers\Api\V1\Admin\AirlineController;
 use App\Http\Controllers\Api\V1\Admin\AirportController;
 use App\Http\Controllers\Api\V1\Admin\AnchorController;
+use App\Http\Controllers\Api\V1\Admin\CabinController;
 use App\Http\Controllers\Api\V1\Admin\CityController;
 use App\Http\Controllers\Api\V1\Admin\ContentController;
 use App\Http\Controllers\Api\V1\Admin\CountryController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Api\V1\Admin\StateController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\Frontend\FlightController;
 use App\Http\Controllers\Api\V1\Frontend\FrontendController;
+use App\Http\Controllers\Api\V1\Panel\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +41,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airlines', AirlineController::class);
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('agencies', AgencyController::class);
+        Route::apiResource('cabins', CabinController::class);
         Route::group(['prefix' => 'agencies/{agency}'], function () {
             Route::apiResource('services', AgencyServiceController::class);
         });
@@ -69,5 +72,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/sitemap', [FrontendController::class, 'sitemap']);
 
     });
+    Route::any('payment/verify/{id}', [PaymentController::class, 'verify']);
     require_once 'panel.php';
 });

@@ -50,4 +50,5 @@ class AgencyServiceController extends Controller
     {
         return $this->unauthorizedResponse([], 'You are not authorized to delete this service');
     }
+
 }

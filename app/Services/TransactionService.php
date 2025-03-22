@@ -2,18 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\Interfaces\PaymentRepositoryInterface;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\TransactionRepositoryInterface;
 
-class PaymentService
+class TransactionService
 {
-    public function __construct(public PaymentRepositoryInterface $repository)
+    public function __construct(public TransactionRepositoryInterface $repository)
     {
     }
 
-    public function all(int $id)
+    public function all()
     {
-        return $this->repository->all($id);
+        return $this->repository->all();
     }
 
     public function store(mixed $validated)
@@ -29,16 +28,6 @@ class PaymentService
     public function destroy(int $id)
     {
         return $this->repository->destroy($id);
-    }
-
-    public function pay(mixed $validated)
-    {
-        return $this->repository->pay($validated);
-    }
-
-    public function verify(Request  $request)
-    {
-        return $this->repository->verify($request);
     }
 
     public function getByUserId()
