@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\Admin\CityController;
 use App\Http\Controllers\Api\V1\Admin\ContentController;
 use App\Http\Controllers\Api\V1\Admin\CountryController;
 use App\Http\Controllers\Api\V1\Admin\FaqController;
+use App\Http\Controllers\Api\V1\Admin\FlightTypeController;
 use App\Http\Controllers\Api\V1\Admin\SeoController;
 use App\Http\Controllers\Api\V1\Admin\SeoRelationController;
 use App\Http\Controllers\Api\V1\Admin\ServiceController;
@@ -42,6 +43,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('agencies', AgencyController::class);
         Route::apiResource('cabins', CabinController::class);
+        Route::apiResource('flight-types', FlightTypeController::class);
         Route::group(['prefix' => 'agencies/{agency}'], function () {
             Route::apiResource('services', AgencyServiceController::class);
         });

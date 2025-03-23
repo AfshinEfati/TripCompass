@@ -56,9 +56,9 @@ class SeoRepository extends BaseRepository implements SeoRepositoryInterface
                 'anchors'
             ])->first();
         }
-       return $this->model->query()->where([
-            'canonical' => $canonicalUrl
-        ])->with([
+       return $this->model->query()
+           ->whereRaw('BINARY `canonical` = ?', [$canonicalUrl])
+        ->with([
             'content',
             'seoRelation',
             'media',

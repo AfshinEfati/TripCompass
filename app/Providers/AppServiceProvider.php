@@ -17,6 +17,7 @@ use App\Repositories\Contracts\ContractRepository;
 use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\FaqRepository;
 use App\Repositories\Contracts\FlightRepository;
+use App\Repositories\Contracts\FlightTypeRepository;
 use App\Repositories\Contracts\GatewayRepository;
 use App\Repositories\Contracts\MediaRepository;
 use App\Repositories\Contracts\PaymentRepository;
@@ -42,6 +43,7 @@ use App\Repositories\Interfaces\ContractRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Repositories\Interfaces\FaqRepositoryInterface;
 use App\Repositories\Interfaces\FlightRepositoryInterface;
+use App\Repositories\Interfaces\FlightTypeRepositoryInterface;
 use App\Repositories\Interfaces\GatewayRepositoryInterface;
 use App\Repositories\Interfaces\MediaRepositoryInterface;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
@@ -68,6 +70,7 @@ use App\Services\ContractService;
 use App\Services\CountryService;
 use App\Services\FaqService;
 use App\Services\FlightService;
+use App\Services\FlightTypeService;
 use App\Services\GatewayService;
 use App\Services\MediaService;
 use App\Services\PaymentService;
@@ -209,6 +212,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CabinRepositoryInterface::class, CabinRepository::class);
         $this->app->bind(CabinService::class, function ($app) {
             return new CabinService($app->make(CabinRepositoryInterface::class));
+        });
+        $this->app->bind(FlightTypeRepositoryInterface::class, FlightTypeRepository::class);
+        $this->app->bind(FlightTypeService::class, function ($app) {
+            return new FlightTypeService($app->make(FlightTypeRepositoryInterface::class));
         });
     }
 
