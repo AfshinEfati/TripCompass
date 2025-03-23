@@ -42,7 +42,6 @@ class AirportSeoSeeder extends Seeder
                             "relation_type" => "destination"
                         ]
                     ]);
-//                    dd(Seo::query()->with(['seoRelation','content'])->find($seo->id));
                 }
             }
         }
