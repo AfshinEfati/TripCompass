@@ -14,4 +14,9 @@ class AgencyWalletRepository extends BaseRepository implements AgencyWalletRepos
     {
         parent::__construct($model);
     }
+
+    public function charge(mixed $validated)
+    {
+        // TODO: Implement charge() method.
+    }
 }

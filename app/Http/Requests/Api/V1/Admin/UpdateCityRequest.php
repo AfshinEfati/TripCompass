@@ -10,8 +10,8 @@ class UpdateCityRequest extends FormRequest
     {
         $id = $this->route('city')->id ?? $this->route('city');
         return [
-            'name_en' => ['required', 'string', 'unique:cities,name_en,', $id],
-            'name_fa' => ['required', 'string', 'unique:cities,name_fa,', $id],
+            'name_en' => ['required', 'string', 'unique:cities,name_en,'. $id],
+            'name_fa' => ['required', 'string', 'unique:cities,name_fa,'. $id],
             'state_id' => ['required', 'exists:states,id'],
             'is_active' => ['boolean', 'nullable'],
         ];

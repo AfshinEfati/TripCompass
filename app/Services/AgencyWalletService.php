@@ -29,4 +29,9 @@ class AgencyWalletService
     {
         return $this->repository->destroy($id);
     }
+
+    public function charge(mixed $validated)
+    {
+        return $this->repository->charge($validated);
+    }
 }
