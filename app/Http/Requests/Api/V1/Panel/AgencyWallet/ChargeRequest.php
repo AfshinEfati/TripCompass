@@ -6,18 +6,31 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ChargeRequest extends FormRequest
 {
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'balance' => auth()->user()->balance,
-        ]);
-    }
+
 
     public function rules(): array
     {
         return [
-            'amount' => 'required|numeric|min:10000',
-            'balance' => 'required|numeric|balance>=amount',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:10000',
+                function ($attribute, $value, $fail) {
+                    if ($value > auth()->user()->balance) {
+                        $fail('Requested amount exceeds your current balance.');
+                    }
+                }
+            ],
+            'agency_id' => [
+                'required',
+                'exists:agencies,id',
+                function ($attribute, $value, $fail) {
+                    $user = auth()->user();
+                    if (!$user->agencies()->where('id', $value)->exists()) {
+                        $fail('The selected agency does not belong to you.');
+                    }
+                }
+            ],
         ];
     }
 
