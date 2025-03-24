@@ -28,6 +28,6 @@ class AgencyWallet extends Model
      */
     public function transactions(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'agency_wallet_id');
+        return $this->hasMany(Transaction::class, 'wallet_id');
     }
 }
