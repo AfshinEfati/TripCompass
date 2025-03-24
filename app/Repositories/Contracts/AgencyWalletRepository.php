@@ -35,4 +35,14 @@ class AgencyWalletRepository extends BaseRepository implements AgencyWalletRepos
         ]);
         return $wallet;
     }
+
+    public function list()
+    {
+        $agencyIds = auth()->user()->agencies()->pluck('id');
+
+        return $this->model
+            ->with(['agency', 'transactions'])
+            ->whereIn('agency_id', $agencyIds)
+            ->get();
+    }
 }

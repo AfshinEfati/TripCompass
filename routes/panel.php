@@ -23,7 +23,7 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth:sanctum'], function () 
         Route::get('{payment}', [PaymentController::class, 'show']);
     });
     Route::group(['prefix' => 'wallet'], function () {
-        Route::get('list', [AgencyWalletController::class, 'index']);
+        Route::get('list', [AgencyWalletController::class, 'list']);
         Route::post('charge', [AgencyWalletController::class, 'charge']);
     });
     Route::apiResource('transaction', TransactionController::class);

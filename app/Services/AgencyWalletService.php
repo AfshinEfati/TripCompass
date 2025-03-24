@@ -34,4 +34,9 @@ class AgencyWalletService
     {
         return $this->repository->charge($validated);
     }
+
+    public function list()
+    {
+        return $this->repository->list();
+    }
 }

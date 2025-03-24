@@ -8,4 +8,6 @@ interface AgencyWalletRepositoryInterface extends BaseRepositoryInterface
 {
     //
     public function charge(mixed $validated);
+
+    public function list();
 }
