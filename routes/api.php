@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\V1\Admin\AirportController;
 use App\Http\Controllers\Api\V1\Admin\AnchorController;
 use App\Http\Controllers\Api\V1\Admin\CabinController;
 use App\Http\Controllers\Api\V1\Admin\CityController;
+use App\Http\Controllers\Api\V1\Admin\ClickRateController;
+use App\Http\Controllers\Api\V1\Admin\ClickRateTypeController;
 use App\Http\Controllers\Api\V1\Admin\ContentController;
 use App\Http\Controllers\Api\V1\Admin\CountryController;
 use App\Http\Controllers\Api\V1\Admin\FaqController;
@@ -43,6 +45,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('airports', AirportController::class);
         Route::apiResource('agencies', AgencyController::class);
         Route::apiResource('cabins', CabinController::class);
+        Route::apiResource('click-rate-types', ClickRateTypeController::class);
+        Route::apiResource('click-rates', ClickRateController::class);
         Route::apiResource('flight-types', FlightTypeController::class);
         Route::group(['prefix' => 'agencies/{agency}'], function () {
             Route::apiResource('services', AgencyServiceController::class);

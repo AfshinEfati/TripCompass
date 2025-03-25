@@ -87,7 +87,13 @@ class FlightRepository extends BaseRepository implements FlightRepositoryInterfa
             ->where('airline_id', $flight->airline_id)
             ->where('flight_number', $flight->flight_number)
             ->where('class', $flight->class)
-            ->where('cabin_type', $flight->cabin_type);
+            ->where('cabin_type', $flight->cabin_type)
+            ->whereHas('agency', function ($query) {
+                $query->where('is_active', true)
+                    ->whereHas('services', function ($q) {
+                        $q->where('is_active', true);
+                    });
+            });
     }
 
     public function redirect(array $validated)

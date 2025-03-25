@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ClickRateType extends Model
 {
@@ -14,7 +15,7 @@ class ClickRateType extends Model
         'sort_order',
     ];
 
-    public function rates()
+    public function rates(): HasMany|ClickRateType
     {
         return $this->hasMany(ClickRate::class, 'click_rate_type_id');
     }

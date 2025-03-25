@@ -36,4 +36,9 @@ class AgencyService
         return $this->repository->getByUserId($id);
     }
 
+    public function find(Agency $agency)
+    {
+        return $this->repository->show($agency->id);
+    }
+
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('click_rate_type_id')->nullable();
             $table->unsignedBigInteger('agency_id')->nullable();
             $table->string('contract_type')->nullable();
-            $table->decimal('rate', 10, 2);
+            $table->unsignedBigInteger('rate');
             $table->timestamps();
 
             $table->foreign('click_rate_type_id')->references('id')->on('click_rate_types')->onDelete('set null');

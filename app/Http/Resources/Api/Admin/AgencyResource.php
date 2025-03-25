@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\Admin;
 
+use App\Http\Resources\Api\Panel\AgencyWalletResource;
 use App\Http\Resources\Api\Panel\ContractResource;
 use App\Models\Agency;
 use App\Traits\StatusTrait;
@@ -23,6 +24,7 @@ class AgencyResource extends JsonResource
             'owner' => UserResource::make($this->owner),
             'services' => AgencyServiceResource::collection($this->services),
             'contract' => ContractResource::make($this->contract),
+            'wallet'=>AgencyWalletResource::make($this->agencyWallet)
         ];
     }
 }

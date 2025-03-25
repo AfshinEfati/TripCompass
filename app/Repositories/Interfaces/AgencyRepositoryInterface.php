@@ -8,4 +8,5 @@ interface AgencyRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function getByUserId(int|string|null $id);
+    public function show($id);
 }

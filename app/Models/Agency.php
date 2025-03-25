@@ -33,5 +33,9 @@ class Agency extends Model
     {
         return $this->hasOne(Contract::class);
     }
+    public function agencyWallet(): HasOne|Agency
+    {
+        return $this->hasOne(AgencyWallet::class);
+    }
 
 }
