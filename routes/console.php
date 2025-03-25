@@ -2,6 +2,7 @@
 
 use App\Jobs\DeleteOldFlightsJob;
 use App\Jobs\FetchFlightsJob;
+use Illuminate\Support\Facades\Schedule;
 
 
 Schedule::job(new FetchFlightsJob())->everyThirtyMinutes();

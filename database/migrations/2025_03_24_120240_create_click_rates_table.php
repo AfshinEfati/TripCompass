@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('click_rates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('click_rate_type_id')->nullable();
             $table->unsignedBigInteger('agency_id')->nullable();
             $table->string('contract_type')->nullable();

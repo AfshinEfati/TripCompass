@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\V1\Panel\AgencyWalletController;
 use App\Http\Controllers\Api\V1\Panel\ContractController;
 use App\Http\Controllers\Api\V1\Panel\PaymentController;
 use App\Http\Controllers\Api\V1\Panel\TransactionController;
+use Illuminate\Support\Facades\Route;
+
 
 Route::group(['prefix' => 'panel', 'middleware' => 'auth:sanctum'], function () {
     Route::apiResource('agencies', AgencyController::class);

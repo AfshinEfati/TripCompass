@@ -12,6 +12,8 @@ use App\Repositories\Contracts\BankRepository;
 use App\Repositories\Contracts\CabinRepository;
 use App\Repositories\Contracts\CityRepository;
 use App\Repositories\Contracts\ClickLogRepository;
+use App\Repositories\Contracts\ClickRateRepository;
+use App\Repositories\Contracts\ClickRateTypeRepository;
 use App\Repositories\Contracts\ContentRepository;
 use App\Repositories\Contracts\ContractRepository;
 use App\Repositories\Contracts\CountryRepository;
@@ -38,6 +40,8 @@ use App\Repositories\Interfaces\BankRepositoryInterface;
 use App\Repositories\Interfaces\CabinRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\ClickLogRepositoryInterface;
+use App\Repositories\Interfaces\ClickRateRepositoryInterface;
+use App\Repositories\Interfaces\ClickRateTypeRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\ContractRepositoryInterface;
 use App\Repositories\Interfaces\CountryRepositoryInterface;
@@ -65,6 +69,8 @@ use App\Services\BankService;
 use App\Services\CabinService;
 use App\Services\CityService;
 use App\Services\ClickLogService;
+use App\Services\ClickRateService;
+use App\Services\ClickRateTypeService;
 use App\Services\ContentService;
 use App\Services\ContractService;
 use App\Services\CountryService;
@@ -216,6 +222,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FlightTypeRepositoryInterface::class, FlightTypeRepository::class);
         $this->app->bind(FlightTypeService::class, function ($app) {
             return new FlightTypeService($app->make(FlightTypeRepositoryInterface::class));
+        });
+        $this->app->bind(ClickRateTypeRepositoryInterface::class, ClickRateTypeRepository::class);
+        $this->app->bind(ClickRateTypeService::class, function ($app) {
+            return new ClickRateTypeService($app->make(ClickRateTypeRepositoryInterface::class));
+        });
+        $this->app->bind(ClickRateRepositoryInterface::class, ClickRateRepository::class);
+        $this->app->bind(ClickRateService::class, function ($app) {
+            return new ClickRateService($app->make(ClickRateRepositoryInterface::class));
         });
     }
 
