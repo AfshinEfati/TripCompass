@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\AgencyService;
 use App\Models\ClickLog;
 use App\Models\ClickRate;
 use App\Models\AgencyWallet;
@@ -78,6 +79,7 @@ class LogClickJob implements ShouldQueue
                 // Ticket::create([...])
                 $wallet->debt += $rate;
                 $wallet->save();
+                AgencyService::where('agency_id', $agencyId)->update(['is_active' => false]);
             }
 
             DB::commit();
