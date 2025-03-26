@@ -10,5 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClickRateTypeRepository extends BaseRepository implements ClickRateTypeRepositoryInterface
 {
-    //
+    public function __construct(ClickRateType $model)
+    {
+        parent::__construct($model);
+    }
 }

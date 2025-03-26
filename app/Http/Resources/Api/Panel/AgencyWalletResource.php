@@ -19,6 +19,7 @@ class AgencyWalletResource extends JsonResource
         return [
             'id' => $this->id,
             'balance' => $this->balance,
+            'debt' => $this->debt,
             'created_at' => $this->formatDates($this->created_at),
             'updated_at' => $this->formatDates($this->updated_at),
             'transactions_count' => $this->transactions_count,

@@ -19,22 +19,58 @@ class AgencyWalletRepository extends BaseRepository implements AgencyWalletRepos
     public function charge(mixed $validated)
     {
         $user = auth()->user();
+
         $wallet = $this->model->firstOrNew([
             'agency_id' => $validated['agency_id'],
         ]);
-        $wallet->balance = ($wallet->balance ?? 0) + $validated['amount'];
+
+        $amount = $validated['amount'];
+        $debt = $wallet->debt ?? 0;
+        $usedForDebt = 0;
+
+        // اگر بدهی وجود داشته باشه، اول از شارژ کم می‌کنیم
+        if ($debt > 0) {
+            if ($amount >= $debt) {
+                $usedForDebt = $debt;
+                $wallet->debt = 0;
+            } else {
+                $usedForDebt = $amount;
+                $wallet->debt -= $amount;
+            }
+        }
+
+        // مبلغ باقی‌مانده به balance اضافه می‌شه
+        $wallet->balance = ($wallet->balance ?? 0) + ($amount - $usedForDebt);
         $wallet->save();
-        $user->update(['balance' => $user->balance - $validated['amount']]);
+
+        // کسر از ولت کاربر (سیستم داخلی شما)
+        $user->update(['balance' => $user->balance - $amount]);
+
+        // ثبت تراکنش برای شارژ
         $this->transactionService->store([
-            'user_id' => $user->id,
-            'amount' => $validated['amount'],
-            'type' => 'withdraw',
-            'agency_id' => $validated['agency_id'],
-            'wallet_id' => $wallet->id,
+            'user_id'     => $user->id,
+            'amount'      => $amount,
+            'type'        => 'withdraw',
+            'agency_id'   => $validated['agency_id'],
+            'wallet_id'   => $wallet->id,
             'description' => "شارژ کیف پول آژانس {$wallet->agency->name_fa}"
         ]);
+
+        // اگر بخشی از مبلغ صرف تسویه بدهی شده، تراکنش جدا ثبت بشه
+        if ($usedForDebt > 0) {
+            $this->transactionService->store([
+                'user_id'     => $user->id,
+                'amount'      => -1 * $usedForDebt,
+                'type'        => 'debt_payment',
+                'agency_id'   => $validated['agency_id'],
+                'wallet_id'   => $wallet->id,
+                'description' => "تسویه بدهی آژانس از محل شارژ جدید"
+            ]);
+        }
+
         return $wallet;
     }
+
 
     public function list()
     {

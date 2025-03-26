@@ -12,6 +12,7 @@ class AgencyWallet extends Model
     protected $fillable = [
         'agency_id',
         'balance',
+        'debt'
 
     ];
 

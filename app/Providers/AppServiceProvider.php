@@ -229,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(ClickRateRepositoryInterface::class, ClickRateRepository::class);
         $this->app->bind(ClickRateService::class, function ($app) {
-            return new ClickRateService($app->make(ClickRateRepositoryInterface::class));
+           return new ClickRateService($app->make(ClickRateRepositoryInterface::class));
         });
     }
 

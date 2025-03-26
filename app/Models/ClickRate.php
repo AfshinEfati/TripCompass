@@ -29,4 +29,20 @@ class ClickRate extends Model
     {
         return $this->belongsTo(Agency::class);
     }
+
+
+
+    public static function getRate(int $serviceId, ?int $agencyId = null, ?string $contractType = null, ?int $clickRateTypeId = null): ?int
+    {
+        return self::query()
+            ->when($clickRateTypeId, fn($q) => $q->where('click_rate_type_id', $clickRateTypeId))
+            ->when($contractType, fn($q) => $q->where('contract_type', $contractType))
+            ->when($agencyId, fn($q) => $q->where('agency_id', $agencyId))
+            ->where('service_id', $serviceId)
+            ->orderByDesc('agency_id')  // اولویت: خاص‌تر
+            ->orderByDesc('click_rate_type_id')
+            ->orderByDesc('id')
+            ->value('rate');
+    }
+
 }

@@ -111,4 +111,5 @@ class StatusHelper
 
         return $cabinTypes[$cabinType] ?? $cabinTypes['economy'];
     }
+
 }
