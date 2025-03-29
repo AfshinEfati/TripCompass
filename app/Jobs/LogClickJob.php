@@ -13,7 +13,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class LogClickJob implements ShouldQueue
 {
@@ -35,14 +34,12 @@ class LogClickJob implements ShouldQueue
         $serviceId  = $this->data['service_id'] ?? null;
 
         if (!$agencyId || !$serviceId) {
-            Log::warning('LogClickJob: داده ناقص برای پردازش کلیک', $this->data);
             return;
         }
 
         $rate = ClickRate::getRate(serviceId: $serviceId, agencyId: $agencyId);
 
         if ($rate === null) {
-            Log::warning("LogClickJob: نرخ کلیک برای آژانس {$agencyId} و سرویس {$serviceId} پیدا نشد.");
             ClickLog::create(array_merge($this->data, ['rate' => 0]));
             return;
         }
@@ -50,19 +47,14 @@ class LogClickJob implements ShouldQueue
         DB::beginTransaction();
         try {
             $click = ClickLog::create(array_merge($this->data, ['rate' => $rate]));
-
             $wallet = AgencyWallet::where('agency_id', $agencyId)->lockForUpdate()->first();
-
             if (!$wallet) {
-                Log::error("LogClickJob: ولت برای آژانس {$agencyId} پیدا نشد.");
                 DB::rollBack();
                 return;
             }
-
             if ($wallet->balance >= $rate) {
                 $wallet->balance -= $rate;
                 $wallet->save();
-
                 Transaction::create([
                     'agency_id'   => $agencyId,
                     'wallet_id'   => $wallet->id,
@@ -70,11 +62,7 @@ class LogClickJob implements ShouldQueue
                     'type'        => 'click',
                     'description' => 'کسر هزینه بابت کلیک روی سرویس',
                 ]);
-
-                Log::info("LogClickJob: {$rate} تومان از آژانس {$agencyId} بابت کلیک کسر شد.");
             } else {
-                Log::warning("LogClickJob: اعتبار آژانس {$agencyId} کافی نبود برای کسر {$rate} تومان.");
-
                 // TODO: ثبت تیکت بدهکاری برای آژانس
                 // Ticket::create([...])
                 $wallet->debt += $rate;
@@ -85,11 +73,6 @@ class LogClickJob implements ShouldQueue
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error("LogClickJob: خطا در پردازش کلیک", [
-                'error'      => $e->getMessage(),
-                'agency_id'  => $agencyId,
-                'service_id' => $serviceId,
-            ]);
         }
     }
 }

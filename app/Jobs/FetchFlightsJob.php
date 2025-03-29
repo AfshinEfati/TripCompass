@@ -24,9 +24,6 @@ class FetchFlightsJob implements ShouldQueue
         try {
             $fetchService->fetchAllFlights();
         } catch (\Throwable $e) {
-            \Log::error("❌ FetchFlightsJob Failed: " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
             $this->fail($e);
         }
     }
