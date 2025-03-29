@@ -25,7 +25,6 @@ class FetchAgencyDataService
             $className = ucfirst($service->service->name_en);
             $vendorClass = "App\\Services\\Agency\\Vendors\\{$vendor}\\{$className}Service";
             if (!class_exists($vendorClass)) {
-                \Log::error("❌ Vendor class {$vendorClass} not found for agency {$service->agency_id}");
                 continue;
             }
 

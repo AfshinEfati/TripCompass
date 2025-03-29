@@ -58,12 +58,6 @@ class FlightService implements VendorAPI
             $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
 
             if (!$response->successful()) {
-                \Log::error("❌ Agency API Request Failed", [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'headers' => $response->headers()
-                ]);
-
                 throw new Exception("Agency API Request Failed: " . $response->status());
             }
 
@@ -111,10 +105,6 @@ class FlightService implements VendorAPI
 
             return $flights;
         } catch (\Throwable $e) {
-            \Log::error("❌ Exception in fetchFlights(): " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
-
             return [];
         }
     }

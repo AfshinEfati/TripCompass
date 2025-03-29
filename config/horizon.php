@@ -185,8 +185,8 @@ return [
             'queue' => ['default', 'high-priority'], // 👈 حالا هر دو صف پردازش می‌شوند
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
-            'minProcesses' => 10,  // 👈 حداقل تعداد Workers (قبلاً مقدار نداشت)
-            'maxProcesses' => 100, // 👈 حداکثر تعداد Workers
+            'minProcesses' => 1,  // 👈 حداقل تعداد Workers (قبلاً مقدار نداشت)
+            'maxProcesses' => 10, // 👈 حداکثر تعداد Workers
             'balanceMaxShift' => 5, // 👈 افزایش سریع Workers هنگام افزایش Jobها
             'balanceCooldown' => 2, // 👈 کاهش سریع Workers بعد از کاهش Jobها
             'maxTime' => 0,
@@ -201,8 +201,8 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
-                'minProcesses' => 10, // 👈 حداقل 10 پردازش همزمان
-                'maxProcesses' => 100,
+                'minProcesses' => 1, // 👈 حداقل 10 پردازش همزمان
+                'maxProcesses' => 20,
                 'balanceMaxShift' => 5,
                 'balanceCooldown' => 2,
             ],
@@ -210,8 +210,8 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'minProcesses' => 2, // 👈 فقط ۲ Worker برای محیط توسعه
-                'maxProcesses' => 100,
+                'minProcesses' => 1, // 👈 فقط ۲ Worker برای محیط توسعه
+                'maxProcesses' => 20,
             ],
         ],
     ],

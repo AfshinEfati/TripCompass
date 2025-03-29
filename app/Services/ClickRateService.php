@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ClickRate;
 use App\Repositories\Interfaces\ClickRateRepositoryInterface;
 
 class ClickRateService
@@ -20,9 +21,9 @@ class ClickRateService
         return $this->repository->store($validated);
     }
 
-    public function update(mixed $validated, mixed $id)
+    public function update(mixed $validated, ClickRate $clickRate)
     {
-        return $this->repository->update($id, $validated);
+        return $this->repository->update($clickRate, $validated);
     }
 
     public function destroy(int $id)

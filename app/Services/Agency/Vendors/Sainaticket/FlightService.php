@@ -55,20 +55,12 @@ class FlightService implements VendorAPI
         try {
             $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
             if (!$response->successful()) {
-                \Log::error("❌ Agency API Request Failed", [
-                    'status' => $response->status(),
-                    'requestData' => $requestData
-                ]);
                 throw new Exception("Agency API Request Failed: " . $response->status());
             }
 
             $result = $response->json();
             $currency = $result['CurrencyCode'] ?? 'IRR';
             if (empty($result['ItineraryList'])) {
-                \Log::warning("⚠️ Agency API returned empty ItineraryList", [
-                    'requestData' => $requestData
-                ]);
-
                 return []; // ✅ اگر خالی بود، پردازش ادامه پیدا نمی‌کند
             }
             $flights = [];
@@ -117,10 +109,6 @@ class FlightService implements VendorAPI
             return $flights;
 
         } catch (\Throwable $e) {
-            \Log::error("❌ Exception in fetchFlights(): " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
-
             return [];
         }
     }

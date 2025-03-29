@@ -48,12 +48,6 @@ class FlightService implements VendorAPI
             $response = Http::timeout(120)->withHeaders($headers)->post($this->config['endpoint'], $body);
 
             if (!$response->successful()) {
-                \Log::error("❌ MarcoPro API Request Failed", [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'headers' => $response->headers()
-                ]);
-
                 throw new Exception("MarcoPro API Request Failed: " . $response->status());
             }
             $result = $response->json();
@@ -61,9 +55,6 @@ class FlightService implements VendorAPI
 
             return $this->mapMarcoProFlightsToDTO($vendorFlights, $requestData);
         } catch (\Throwable $e) {
-            \Log::error("❌ Exception in MarcoPro fetchFlights(): " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
             return [];
         }
     }

@@ -9,8 +9,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-// ✅ ایمپورت صحیح Dispatchable
-
 
 class FetchFlightForRouteJob implements ShouldQueue
 {
@@ -55,7 +53,6 @@ class FetchFlightForRouteJob implements ShouldQueue
                 app(FetchAgencyDataService::class)->storeFlightsInDatabase($flights, $this->agencyId);
             }
         } catch (\Throwable $e) {
-            \Log::error("❌ Error fetching flights for {$this->flightDate} from {$this->origin} to {$this->destination}: " . $e->getMessage());
             $this->fail($e); // جاب را Fail می‌کنیم تا دیگر تکرار نشود
         }
     }

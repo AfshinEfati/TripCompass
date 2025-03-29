@@ -37,7 +37,7 @@ class ClickRateController extends Controller
 
     public function update(UpdateClickRateRequest $request, ClickRate $clickRate)
     {
-        $this->service->update($request->validated(), $clickRate->id);
+        $this->service->update($request->validated(), $clickRate);
         return StatusHelper::successResponse(new ClickRateResource($clickRate->refresh()), 'Updated Click Rate');
     }
 
